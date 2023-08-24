@@ -9,7 +9,10 @@ export class ReservationsResolver {
   constructor(private readonly reservationsService: ReservationsService) {}
 
   @Mutation(() => Reservation)
-  createReservation(@Args('createReservationInput') createReservationInput: CreateReservationInput) {
+  createReservation(
+    @Args('createReservationInput')
+    createReservationInput: CreateReservationInput,
+  ) {
     return this.reservationsService.create(createReservationInput);
   }
 
@@ -24,8 +27,14 @@ export class ReservationsResolver {
   }
 
   @Mutation(() => Reservation)
-  updateReservation(@Args('updateReservationInput') updateReservationInput: UpdateReservationInput) {
-    return this.reservationsService.update(updateReservationInput.id, updateReservationInput);
+  updateReservation(
+    @Args('updateReservationInput')
+    updateReservationInput: UpdateReservationInput,
+  ) {
+    return this.reservationsService.update(
+      updateReservationInput.id,
+      updateReservationInput,
+    );
   }
 
   @Mutation(() => Reservation)

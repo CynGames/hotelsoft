@@ -29,21 +29,22 @@
    - `invoiceID`: Primary Key
    - `reservationID`: Foreign Key (references Reservations)
    - `amount`: Decimal
-   - `status`: String (e.g., paid, unpaid)
+   - `status`: String (example: paid, unpaid)
+   - `date`: Date
 
    **Payments Table:**
    - `paymentID`: Primary Key
    - `invoiceID`: Foreign Key (references Invoices)
    - `amount`: Decimal
-   - `method`: String (e.g., cash, credit card)
+   - `method`: String (example: cash, credit card)
    - `date`: Date
 
 ## 5. Maintenance Management:
-   **MaintenanceRequests Table:**
-   - `requestID`: Primary Key
+   **Maintenance Table:**
+   - `maintenanceID`: Primary Key
    - `roomID`: Foreign Key (references Rooms)
    - `description`: Text
-   - `status`: String (e.g., pending, completed)
+   - `status`: String (example: pending, completed)
    - `scheduledDate`: Date 
 
 ## 6. Security:
@@ -51,4 +52,4 @@
    - `userID`: Primary Key
    - `username`: String
    - `password`: Encrypted String
-   - `role`: String (e.g., admin, guest)
+   - `role`: String (example: admin, guest)

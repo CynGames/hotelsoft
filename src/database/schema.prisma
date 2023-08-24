@@ -1,0 +1,106 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = env("PRISMA_BINARY_TARGETS")
+}
+
+model Guest {
+  guestID     Int    @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String @unique
+  phoneNumber String
+}
+
+model Room {
+  roomID Int        @id @default(autoincrement())
+  type   String
+  price  Decimal
+  status RoomStatus
+}
+
+model Reservation {
+  reservationID Int               @id @default(autoincrement())
+  guestID       Int
+  roomID        Int
+  checkIn       DateTime
+  checkOut      DateTime
+  status        ReservationStatus
+}
+
+model Invoice {
+  invoiceID     Int           @id @default(autoincrement())
+  reservationID Int
+  amount        Decimal
+  status        InvoiceStatus
+  date          DateTime
+}
+
+model Payment {
+  paymentID Int           @id @default(autoincrement())
+  invoiceID Int
+  amount    Decimal
+  method    PaymentMethod
+  date      DateTime
+}
+
+model Maintenance {
+  maintenanceID Int               @id @default(autoincrement())
+  roomID        Int
+  description   String
+  status        MaintenanceStatus
+  scheduledDate DateTime
+}
+
+model User {
+  userID   Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  role     Role
+}
+
+enum RoomStatus {
+  Available
+  Booked
+  Occupied
+}
+
+enum ReservationStatus {
+  Confirmed
+  Cancelled
+}
+
+enum InvoiceStatus {
+  Paid
+  Unpaid
+}
+
+enum PaymentMethod {
+  Cash
+  CreditCard
+  DebitCard
+  PayPal
+  Venmo
+  Zelle
+  ApplePay
+  GooglePay
+  Bitcoin
+  Ethereum
+  Other
+}
+
+enum MaintenanceStatus {
+  Scheduled
+  InProgress
+  Completed
+  Cancelled
+}
+
+enum Role {
+  Admin
+  Guest
+}
