@@ -4,22 +4,39 @@ import { UpdateGuestInput } from './dto/update-guest.input';
 
 @Injectable()
 export class GuestsService {
+  guests = [
+    {
+      guestID: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: '',
+      phone: '',
+    },
+    {
+      guestID: 2,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: '',
+      phone: '',
+    },
+  ];
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   create(createGuestInput: CreateGuestInput) {
-    return 'This action adds a new guest';
+    return;
   }
 
   findAll() {
-    return `This action returns all guests`;
+    return this.guests;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} guest`;
+    return this.guests.find((guest) => guest.guestID === id);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateGuestInput: UpdateGuestInput) {
-    return `This action updates a #${id} guest`;
+    return `This action removes a #${id} guest`;
   }
 
   remove(id: number) {

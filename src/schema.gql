@@ -1,0 +1,159 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Reservation {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Guest {
+  guestID: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String!
+}
+
+type Room {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Invoice {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Payment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Maintenance {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type User {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  getHello: String!
+  reservations: [Reservation!]!
+  reservation(id: Int!): Reservation!
+  guests: [Guest!]!
+  guest(id: Int!): Guest!
+  room(id: Int!): Room!
+  invoices: [Invoice!]!
+  invoice(id: Int!): Invoice!
+  payments: [Payment!]!
+  payment(id: Int!): Payment!
+  maintenances: [Maintenance!]!
+  maintenance(id: Int!): Maintenance!
+  users: [User!]!
+  user(id: Int!): User!
+}
+
+type Mutation {
+  createReservation(createReservationInput: CreateReservationInput!): Reservation!
+  updateReservation(updateReservationInput: UpdateReservationInput!): Reservation!
+  removeReservation(id: Int!): Reservation!
+  createGuest(createGuestInput: CreateGuestInput!): Guest!
+  updateGuest(updateGuestInput: UpdateGuestInput!): Guest!
+  removeGuest(id: Int!): Guest!
+  createRoom(createRoomInput: CreateRoomInput!): Room!
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
+  removeRoom(id: Int!): Room!
+  createInvoice(createInvoiceInput: CreateInvoiceInput!): Invoice!
+  updateInvoice(updateInvoiceInput: UpdateInvoiceInput!): Invoice!
+  removeInvoice(id: Int!): Invoice!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
+  removePayment(id: Int!): Payment!
+  createMaintenance(createMaintenanceInput: CreateMaintenanceInput!): Maintenance!
+  updateMaintenance(updateMaintenanceInput: UpdateMaintenanceInput!): Maintenance!
+  removeMaintenance(id: Int!): Maintenance!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+}
+
+input CreateReservationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateReservationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateRoomInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateRoomInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateInvoiceInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateInvoiceInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateMaintenanceInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateMaintenanceInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
