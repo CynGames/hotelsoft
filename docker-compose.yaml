@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15.4
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER= ${POSTGRES_USER}
+      - POSTGRES_PASSWORD= ${POSTGRES_PASSWORD}
+      - POSTGRES_DB= ${POSTGRES_DB}
+
+    container_name: postgress
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-app
+    environment:
+      - PORT=${PORT}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
