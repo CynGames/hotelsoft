@@ -1,45 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGuestInput } from './dto/create-guest.input';
-import { UpdateGuestInput } from './dto/update-guest.input';
+import { PrismaService } from 'src/database/prisma.service';
+import { Guest } from './entities/guest.entity';
 
 @Injectable()
 export class GuestsService {
-  guests = [
-    {
-      guestID: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      email: '',
-      phone: '',
-    },
-    {
-      guestID: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: '',
-      phone: '',
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(createGuestInput: CreateGuestInput) {
-    return;
+  async getGuests(): Promise<Guest[]> {
+    return this.prisma.guest.findMany();
   }
 
-  findAll() {
-    return this.guests;
+  // input?
+  async createGuest(
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string,
+  ): Promise<Guest> {
+    return this.prisma.guest.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return this.guests.find((guest) => guest.guestID === id);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateGuestInput: UpdateGuestInput) {
-    return `This action removes a #${id} guest`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} guest`;
+  async updateGuest(guestID: number, email: string): Promise<Guest> {
+    return this.prisma.guest.update({
+      where: { guestID },
+      data: { email },
+    });
   }
 }
