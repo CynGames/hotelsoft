@@ -9,11 +9,11 @@ generator client {
 }
 
 model Guest {
-  guestID     Int    @id @default(autoincrement())
+  guestID     Int     @id @default(autoincrement())
   firstName   String
-  lastName    String
-  email       String @unique
-  phoneNumber String
+  lastName    String?
+  email       String  @unique
+  phoneNumber String?
 }
 
 model Room {

@@ -1,46 +1,44 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, Int } from '@nestjs/graphql';
 import { GuestsService } from './guests.service';
 import { Guest } from './entities/guest.entity';
+import { CreateGuestInput, UpdateGuestInput } from './dto/inputs';
 
 @Resolver(() => Guest)
 export class GuestsResolver {
   constructor(private readonly guestsService: GuestsService) {}
 
-  @Mutation(() => Guest)
-  async createGuest(
-    @Args('firstName') firstName: string,
-    @Args('lastName') lastName: string,
-    @Args('email') email: string,
-    @Args('phone') phone: string,
-  ): Promise<Guest> {
-    return this.guestsService.createGuest(firstName, lastName, email, phone);
-  }
-
-  @Mutation(() => Guest)
-  async updateGuest(
-    @Args('guestID') guestID: number,
-    @Args('email') email: string,
-  ): Promise<Guest> {
-    return this.guestsService.updateGuest(guestID, email);
-  }
-
   @Query(() => [Guest], { name: 'guests' })
-  async getGuests(): Promise<Guest[]> {
-    return this.guestsService.getGuests();
+  async getAll(): Promise<Guest[]> {
+    return this.guestsService.getAll();
   }
 
-  // @Query(() => Guest, { name: 'guest' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.guestsService.findOne(id);
+  // @Query(() => [Guest], { name: 'guests' })
+  // async findMany(@Args('params') params: Guest): Promise<Guest[]> {
+  //   return this.guestsService.findMany(params);
   // }
-  //
-  // @Mutation(() => Guest)
-  // updateGuest(@Args('updateGuestInput') updateGuestInput: UpdateGuestInput) {
-  //   return this.guestsService.update(updateGuestInput.id, updateGuestInput);
-  // }
-  //
-  // @Mutation(() => Guest)
-  // removeGuest(@Args('id', { type: () => Int }) id: number) {
-  //   return this.guestsService.remove(id);
-  // }
+
+  @Query(() => Guest, { name: 'guest' })
+  async getOne(@Args('id', { type: () => Int }) id: number) {
+    return this.guestsService.getOne(id);
+  }
+
+  @Mutation(() => Guest)
+  async create(
+    @Args('createGuestInput') createGuestInput: CreateGuestInput,
+  ): Promise<Guest> {
+    return this.guestsService.create(createGuestInput);
+  }
+
+  @Mutation(() => Guest)
+  async update(
+    @Args('guestID') guestID: number,
+    @Args('updateGuestInput') updateGuestInput: UpdateGuestInput,
+  ): Promise<Guest> {
+    return this.guestsService.update(guestID, updateGuestInput);
+  }
+
+  @Mutation(() => Guest)
+  async remove(@Args('id', { type: () => Int }) id: number) {
+    return this.guestsService.remove(id);
+  }
 }

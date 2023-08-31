@@ -1,36 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma.service';
 import { Guest } from './entities/guest.entity';
+import { CreateGuestInput, UpdateGuestInput } from './dto/inputs';
+import { GuestsRepository } from './guests.repository';
 
 @Injectable()
 export class GuestsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly guestsRepository: GuestsRepository) {}
 
-  async getGuests(): Promise<Guest[]> {
-    return this.prisma.guest.findMany();
+  async getAll(): Promise<Guest[]> {
+    return this.guestsRepository.getAll();
   }
 
-  // input?
-  async createGuest(
-    firstName: string,
-    lastName: string,
-    email: string,
-    phoneNumber: string,
+  // async findMany(params: any): Promise<Guest[]> {
+  //   return this.guestsRepository.findMany(params);
+  // }
+
+  async getOne(guestID: number): Promise<Guest> {
+    return this.guestsRepository.getByID(guestID);
+  }
+
+  async create(createGuestInput: CreateGuestInput): Promise<Guest> {
+    return this.guestsRepository.create(createGuestInput);
+  }
+
+  async update(
+    guestID: number,
+    updateGuestInput: UpdateGuestInput,
   ): Promise<Guest> {
-    return this.prisma.guest.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-      },
-    });
+    return this.guestsRepository.update(guestID, updateGuestInput);
   }
 
-  async updateGuest(guestID: number, email: string): Promise<Guest> {
-    return this.prisma.guest.update({
-      where: { guestID },
-      data: { email },
-    });
+  async remove(guestID: number) {
+    return this.guestsRepository.delete(guestID);
   }
 }
