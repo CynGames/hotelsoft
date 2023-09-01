@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Guest } from './entities/guest.entity';
-import { CreateGuestInput, UpdateGuestInput } from './dto/inputs';
+import {
+  CreateGuestInput,
+  UpdateGuestInput,
+  FindManyGuestInput,
+} from './dto/inputs';
 import { GuestsRepository } from './guests.repository';
 
 @Injectable()
@@ -11,9 +15,14 @@ export class GuestsService {
     return this.guestsRepository.getAll();
   }
 
-  // async findMany(params: any): Promise<Guest[]> {
-  //   return this.guestsRepository.findMany(params);
-  // }
+  async findMany(params: FindManyGuestInput): Promise<Guest[]> {
+    const where = Object.fromEntries(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(params).filter(([_, v]) => v !== undefined),
+    );
+
+    return this.guestsRepository.findMany(where);
+  }
 
   async getOne(guestID: number): Promise<Guest> {
     return this.guestsRepository.getByID(guestID);

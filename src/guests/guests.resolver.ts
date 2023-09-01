@@ -1,7 +1,11 @@
 import { Resolver, Mutation, Args, Query, Int } from '@nestjs/graphql';
 import { GuestsService } from './guests.service';
 import { Guest } from './entities/guest.entity';
-import { CreateGuestInput, UpdateGuestInput } from './dto/inputs';
+import {
+  CreateGuestInput,
+  FindManyGuestInput,
+  UpdateGuestInput,
+} from './dto/inputs';
 
 @Resolver(() => Guest)
 export class GuestsResolver {
@@ -12,10 +16,10 @@ export class GuestsResolver {
     return this.guestsService.getAll();
   }
 
-  // @Query(() => [Guest], { name: 'guests' })
-  // async findMany(@Args('params') params: Guest): Promise<Guest[]> {
-  //   return this.guestsService.findMany(params);
-  // }
+  @Query(() => [Guest], { name: 'guestsWithParams' })
+  async findMany(@Args('params') params: FindManyGuestInput): Promise<Guest[]> {
+    return this.guestsService.findMany(params);
+  }
 
   @Query(() => Guest, { name: 'guest' })
   async getOne(@Args('id', { type: () => Int }) id: number) {
