@@ -24,7 +24,7 @@ export class GuestsService {
     return this.guestsRepository.findMany(where);
   }
 
-  async getOne(guestID: number): Promise<Guest> {
+  async getOne(guestID: string): Promise<Guest> {
     return this.guestsRepository.getByID(guestID);
   }
 
@@ -33,13 +33,13 @@ export class GuestsService {
   }
 
   async update(
-    guestID: number,
+    guestID: string,
     updateGuestInput: UpdateGuestInput,
   ): Promise<Guest> {
     return this.guestsRepository.update(guestID, updateGuestInput);
   }
 
-  async remove(guestID: number) {
+  async remove(guestID: string) {
     return this.guestsRepository.delete(guestID);
   }
 }

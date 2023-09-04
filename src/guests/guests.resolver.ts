@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Query, Int } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, ID } from '@nestjs/graphql';
 import { GuestsService } from './guests.service';
 import { Guest } from './entities/guest.entity';
 import {
@@ -22,7 +22,7 @@ export class GuestsResolver {
   }
 
   @Query(() => Guest, { name: 'guest' })
-  async getOne(@Args('id', { type: () => Int }) id: number) {
+  async getOne(@Args('guestID', { type: () => ID }) id: string) {
     return this.guestsService.getOne(id);
   }
 
@@ -35,14 +35,14 @@ export class GuestsResolver {
 
   @Mutation(() => Guest)
   async update(
-    @Args('guestID') guestID: number,
+    @Args('guestID') guestID: string,
     @Args('updateGuestInput') updateGuestInput: UpdateGuestInput,
   ): Promise<Guest> {
     return this.guestsService.update(guestID, updateGuestInput);
   }
 
   @Mutation(() => Guest)
-  async remove(@Args('id', { type: () => Int }) id: number) {
+  async remove(@Args('guestID', { type: () => ID }) id: string) {
     return this.guestsService.remove(id);
   }
 }

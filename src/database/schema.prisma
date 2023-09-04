@@ -9,7 +9,7 @@ generator client {
 }
 
 model Guest {
-  guestID     Int     @id @default(autoincrement())
+  guestID     String  @id @default(uuid())
   firstName   String
   lastName    String?
   email       String  @unique

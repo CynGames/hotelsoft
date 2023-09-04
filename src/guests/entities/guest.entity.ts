@@ -1,25 +1,37 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { IsEmail, IsNumber, IsPhoneNumber, IsString } from 'class-validator';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 @ObjectType()
 export class Guest {
-  @Field(() => Int)
-  @IsNumber()
-  guestID: number;
+  @Field(() => ID)
+  @IsNotEmpty()
+  @IsUUID()
+  guestID: string;
 
   @Field(() => String)
   @IsString()
+  @IsNotEmpty()
   firstName: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
-  lastName: string;
+  @IsOptional()
+  lastName?: string;
 
   @Field(() => String)
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsPhoneNumber(null)
-  phoneNumber: string;
+  @IsOptional()
+  phoneNumber?: string;
 }

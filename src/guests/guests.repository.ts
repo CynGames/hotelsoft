@@ -12,14 +12,14 @@ export class GuestsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAll(): Promise<Guest[]> {
-    return this.prisma.guest.findMany({});
+    return this.prisma.guest.findMany();
   }
 
   async findMany(where: FindManyGuestInput): Promise<Guest[]> {
     return this.prisma.guest.findMany({ where });
   }
 
-  async getByID(guestID: number): Promise<Guest> {
+  async getByID(guestID: string): Promise<Guest> {
     return this.prisma.guest.findUniqueOrThrow({ where: { guestID } });
   }
 
@@ -34,11 +34,11 @@ export class GuestsRepository {
     });
   }
 
-  async update(guestID: number, data: UpdateGuestInput): Promise<Guest> {
+  async update(guestID: string, data: UpdateGuestInput): Promise<Guest> {
     return this.prisma.guest.update({ data, where: { guestID } });
   }
 
-  async delete(guestID: number): Promise<boolean> {
+  async delete(guestID: string): Promise<boolean> {
     await this.prisma.guest.delete({ where: { guestID } });
     return true;
   }

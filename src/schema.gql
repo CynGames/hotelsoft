@@ -8,11 +8,11 @@ type Reservation {
 }
 
 type Guest {
-  guestID: Int!
+  guestID: ID!
   firstName: String!
-  lastName: String!
+  lastName: String
   email: String!
-  phoneNumber: String!
+  phoneNumber: String
 }
 
 type Room {
@@ -45,7 +45,7 @@ type Query {
   reservation(id: Int!): Reservation!
   guests: [Guest!]!
   guestsWithParams(params: FindManyGuestInput!): [Guest!]!
-  guest(id: Int!): Guest!
+  guest(guestID: ID!): Guest!
   room(id: Int!): Room!
   invoices: [Invoice!]!
   invoice(id: Int!): Invoice!
@@ -58,7 +58,7 @@ type Query {
 }
 
 input FindManyGuestInput {
-  guestID: Int
+  guestID: ID
   firstName: String
   lastName: String
   email: String
@@ -70,8 +70,8 @@ type Mutation {
   updateReservation(updateReservationInput: UpdateReservationInput!): Reservation!
   removeReservation(id: Int!): Reservation!
   create(createGuestInput: CreateGuestInput!): Guest!
-  update(guestID: Float!, updateGuestInput: UpdateGuestInput!): Guest!
-  remove(id: Int!): Guest!
+  update(guestID: String!, updateGuestInput: UpdateGuestInput!): Guest!
+  remove(guestID: ID!): Guest!
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(id: Int!): Room!
