@@ -8,11 +8,11 @@ type Reservation {
 }
 
 type Guest {
-  guestID: Int!
+  guestID: ID!
   firstName: String!
-  lastName: String!
+  lastName: String
   email: String!
-  phoneNumber: String!
+  phoneNumber: String
 }
 
 type Room {
@@ -44,6 +44,8 @@ type Query {
   reservations: [Reservation!]!
   reservation(id: Int!): Reservation!
   guests: [Guest!]!
+  guestsWithParams(params: FindManyGuestInput!): [Guest!]!
+  guest(guestID: ID!): Guest!
   room(id: Int!): Room!
   invoices: [Invoice!]!
   invoice(id: Int!): Invoice!
@@ -55,12 +57,21 @@ type Query {
   user(id: Int!): User!
 }
 
+input FindManyGuestInput {
+  guestID: ID
+  firstName: String
+  lastName: String
+  email: String
+  phoneNumber: String
+}
+
 type Mutation {
   createReservation(createReservationInput: CreateReservationInput!): Reservation!
   updateReservation(updateReservationInput: UpdateReservationInput!): Reservation!
   removeReservation(id: Int!): Reservation!
-  createGuest(firstName: String!, lastName: String!, email: String!, phone: String!): Guest!
-  updateGuest(guestID: Float!, email: String!): Guest!
+  create(createGuestInput: CreateGuestInput!): Guest!
+  update(guestID: String!, updateGuestInput: UpdateGuestInput!): Guest!
+  remove(guestID: ID!): Guest!
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(id: Int!): Room!
@@ -87,6 +98,20 @@ input UpdateReservationInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input CreateGuestInput {
+  firstName: String!
+  lastName: String
+  email: String!
+  phoneNumber: String
+}
+
+input UpdateGuestInput {
+  firstName: String
+  lastName: String
+  email: String
+  phoneNumber: String
 }
 
 input CreateRoomInput {

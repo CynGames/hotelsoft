@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/pgdata
 
 # env
 .env
@@ -37,4 +38,3 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/pgdata
