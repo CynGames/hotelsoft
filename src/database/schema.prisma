@@ -9,11 +9,12 @@ generator client {
 }
 
 model Guest {
-  guestID     String  @id @default(uuid())
-  firstName   String
-  lastName    String?
-  email       String  @unique
-  phoneNumber String?
+  guestID      String        @id @default(uuid())
+  firstName    String
+  lastName     String?
+  email        String        @unique
+  phoneNumber  String?
+  reservations Reservation[]
 }
 
 model Room {
@@ -25,16 +26,17 @@ model Room {
 
 model Reservation {
   reservationID String            @id @default(uuid())
-  guestID       String
-  roomID        String
+  guestID       String?
+  roomID        String?
   checkIn       DateTime
   checkOut      DateTime
   status        ReservationStatus
+  guest         Guest?            @relation(fields: [guestID], references: [guestID])
 }
 
 model Invoice {
   invoiceID     String        @id @default(uuid())
-  reservationID String
+  reservationID String?
   amount        Decimal
   status        InvoiceStatus
   date          DateTime
@@ -42,7 +44,7 @@ model Invoice {
 
 model Payment {
   paymentID String        @id @default(uuid())
-  invoiceID String
+  invoiceID String?
   amount    Decimal
   method    PaymentMethod
   date      DateTime
@@ -50,8 +52,8 @@ model Payment {
 
 model Maintenance {
   maintenanceID String            @id @default(uuid())
-  roomID        String
-  description   String
+  roomID        String?
+  description   String?
   status        MaintenanceStatus
   scheduledDate DateTime
 }

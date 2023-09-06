@@ -1,28 +1,57 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReservationInput } from './dto/create-reservation.input';
-import { UpdateReservationInput } from './dto/update-reservation.input';
+import {
+  CreateReservationInput,
+  FindManyReservationInput,
+  UpdateReservationInput,
+} from './dto/inputs/';
+import { GuestsRepository } from '../guests/guests.repository';
+import { ReservationsRepository } from './reservations.repository';
+import { Reservation } from './entities/reservation.entity';
 
 @Injectable()
 export class ReservationsService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(createReservationInput: CreateReservationInput) {
-    return 'This action adds a new reservation';
+  constructor(
+    private readonly guestsRepository: GuestsRepository,
+    private readonly reservationsRepository: ReservationsRepository,
+  ) {}
+
+  getAll(): Promise<Reservation[]> {
+    return this.reservationsRepository.getAll();
   }
 
-  findAll() {
-    return `This action returns all reservations`;
+  getMany(params: FindManyReservationInput): Promise<Reservation[]> {
+    return this.reservationsRepository.getMany(params);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reservation`;
+  getByID(reservationID: string): Promise<Reservation> {
+    return this.reservationsRepository.getByID(reservationID);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateReservationInput: UpdateReservationInput) {
-    return `This action updates a #${id} reservation`;
+  create(createReservationInput: CreateReservationInput): Promise<Reservation> {
+    const { guestID } = createReservationInput;
+
+    if (guestID) {
+      const guest = this.guestsRepository.getByID(guestID);
+
+      if (!guest) {
+        throw new Error(`Guest with ID ${guestID} not found`);
+      }
+    }
+
+    return this.reservationsRepository.create(createReservationInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reservation`;
+  update(
+    reservationID: string,
+    updateReservationInput: UpdateReservationInput,
+  ): Promise<Reservation> {
+    return this.reservationsRepository.update(
+      reservationID,
+      updateReservationInput,
+    );
+  }
+
+  remove(reservationID: string): Promise<Reservation> {
+    return this.reservationsRepository.remove(reservationID);
   }
 }

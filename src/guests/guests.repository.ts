@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { Guest } from './entities/guest.entity';
+import { Guest } from '@prisma/client';
 import {
   CreateGuestInput,
   UpdateGuestInput,
@@ -15,7 +15,7 @@ export class GuestsRepository {
     return this.prisma.guest.findMany();
   }
 
-  async findMany(where: FindManyGuestInput): Promise<Guest[]> {
+  async getMany(where: FindManyGuestInput): Promise<Guest[]> {
     return this.prisma.guest.findMany({ where });
   }
 
@@ -38,8 +38,7 @@ export class GuestsRepository {
     return this.prisma.guest.update({ data, where: { guestID } });
   }
 
-  async delete(guestID: string): Promise<boolean> {
-    await this.prisma.guest.delete({ where: { guestID } });
-    return true;
+  async delete(guestID: string) {
+    return this.prisma.guest.delete({ where: { guestID } });
   }
 }

@@ -1,4 +1,5 @@
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
+import { ReservationStatus } from '@prisma/client';
 import {
   IsDate,
   IsEnum,
@@ -6,21 +7,15 @@ import {
   IsOptional,
   IsUUID,
 } from 'class-validator';
-import { ReservationStatus } from '@prisma/client';
 
-@ObjectType()
-export class Reservation {
-  @Field(() => ID)
-  @IsNotEmpty()
-  @IsUUID()
-  reservationID: string;
-
+@InputType()
+export class CreateReservationInput {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()
   guestID: string;
 
-  @Field(() => ID, { nullable: true })
+  @Field(() => ID)
   @IsOptional()
   @IsUUID()
   roomID?: string;
@@ -40,8 +35,3 @@ export class Reservation {
   @IsEnum(ReservationStatus)
   status: ReservationStatus;
 }
-
-registerEnumType(ReservationStatus, {
-  name: 'ReservationStatus',
-  description: 'The status of the reservation',
-});
