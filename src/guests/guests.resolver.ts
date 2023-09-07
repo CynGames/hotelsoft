@@ -17,24 +17,24 @@ export class GuestsResolver {
   }
 
   @Query(() => [Guest], { name: 'guestsWithParams' })
-  async findMany(@Args('params') params: FindManyGuestInput): Promise<Guest[]> {
-    return this.guestsService.findMany(params);
+  getMany(@Args('params') params: FindManyGuestInput): Promise<Guest[]> {
+    return this.guestsService.getMany(params);
   }
 
   @Query(() => Guest, { name: 'guest' })
-  async getOne(@Args('guestID', { type: () => ID }) id: string) {
+  getOne(@Args('guestID', { type: () => ID }) id: string) {
     return this.guestsService.getOne(id);
   }
 
   @Mutation(() => Guest)
-  async create(
+  create(
     @Args('createGuestInput') createGuestInput: CreateGuestInput,
   ): Promise<Guest> {
     return this.guestsService.create(createGuestInput);
   }
 
   @Mutation(() => Guest)
-  async update(
+  update(
     @Args('guestID') guestID: string,
     @Args('updateGuestInput') updateGuestInput: UpdateGuestInput,
   ): Promise<Guest> {
@@ -42,7 +42,7 @@ export class GuestsResolver {
   }
 
   @Mutation(() => Guest)
-  async remove(@Args('guestID', { type: () => ID }) id: string) {
+  remove(@Args('guestID', { type: () => ID }) id: string) {
     return this.guestsService.remove(id);
   }
 }

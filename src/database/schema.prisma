@@ -9,55 +9,57 @@ generator client {
 }
 
 model Guest {
-  guestID     String  @id @default(uuid())
-  firstName   String
-  lastName    String?
-  email       String  @unique
-  phoneNumber String?
+  guestID      String        @id @default(uuid())
+  firstName    String
+  lastName     String?
+  email        String        @unique
+  phoneNumber  String?
+  reservations Reservation[]
 }
 
 model Room {
-  roomID Int        @id @default(autoincrement())
+  roomID String     @id @default(uuid())
   type   String
   price  Decimal
   status RoomStatus
 }
 
 model Reservation {
-  reservationID Int               @id @default(autoincrement())
-  guestID       Int
-  roomID        Int
+  reservationID String            @id @default(uuid())
+  guestID       String?
+  roomID        String?
   checkIn       DateTime
   checkOut      DateTime
   status        ReservationStatus
+  guest         Guest?            @relation(fields: [guestID], references: [guestID])
 }
 
 model Invoice {
-  invoiceID     Int           @id @default(autoincrement())
-  reservationID Int
+  invoiceID     String        @id @default(uuid())
+  reservationID String?
   amount        Decimal
   status        InvoiceStatus
   date          DateTime
 }
 
 model Payment {
-  paymentID Int           @id @default(autoincrement())
-  invoiceID Int
+  paymentID String        @id @default(uuid())
+  invoiceID String?
   amount    Decimal
   method    PaymentMethod
   date      DateTime
 }
 
 model Maintenance {
-  maintenanceID Int               @id @default(autoincrement())
-  roomID        Int
-  description   String
+  maintenanceID String            @id @default(uuid())
+  roomID        String?
+  description   String?
   status        MaintenanceStatus
   scheduledDate DateTime
 }
 
 model User {
-  userID   Int    @id @default(autoincrement())
+  userID   String @id @default(uuid())
   username String @unique
   password String
   role     Role
@@ -70,6 +72,7 @@ enum RoomStatus {
 }
 
 enum ReservationStatus {
+  Pending
   Confirmed
   Cancelled
 }

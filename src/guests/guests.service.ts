@@ -11,35 +11,32 @@ import { GuestsRepository } from './guests.repository';
 export class GuestsService {
   constructor(private readonly guestsRepository: GuestsRepository) {}
 
-  async getAll(): Promise<Guest[]> {
+  getAll(): Promise<Guest[]> {
     return this.guestsRepository.getAll();
   }
 
-  async findMany(params: FindManyGuestInput): Promise<Guest[]> {
+  getMany(params: FindManyGuestInput): Promise<Guest[]> {
     const where = Object.fromEntries(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(params).filter(([_, v]) => v !== undefined),
     );
 
-    return this.guestsRepository.findMany(where);
+    return this.guestsRepository.getMany(where);
   }
 
   async getOne(guestID: string): Promise<Guest> {
     return this.guestsRepository.getByID(guestID);
   }
 
-  async create(createGuestInput: CreateGuestInput): Promise<Guest> {
+  create(createGuestInput: CreateGuestInput): Promise<Guest> {
     return this.guestsRepository.create(createGuestInput);
   }
 
-  async update(
-    guestID: string,
-    updateGuestInput: UpdateGuestInput,
-  ): Promise<Guest> {
+  update(guestID: string, updateGuestInput: UpdateGuestInput): Promise<Guest> {
     return this.guestsRepository.update(guestID, updateGuestInput);
   }
 
-  async remove(guestID: string) {
+  remove(guestID: string) {
     return this.guestsRepository.delete(guestID);
   }
 }
