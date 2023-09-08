@@ -14,6 +14,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { RoomModule } from './room/room.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UsersModule } from './users/users.module';
     PaymentsModule,
     MaintenancesModule,
     UsersModule,
+    AuthModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],

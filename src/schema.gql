@@ -53,8 +53,23 @@ type Room {
 }
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  userID: ID!
+  username: String!
+  email: String!
+  password: String!
+  role: UserRole
+  isActive: Boolean
+}
+
+"""The role of the user"""
+enum UserRole {
+  Admin
+  Guest
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
 }
 
 type Query {
@@ -71,8 +86,6 @@ type Query {
   payment(id: Int!): Payment!
   maintenances: [Maintenance!]!
   maintenance(id: Int!): Maintenance!
-  users: [User!]!
-  user(id: Int!): User!
 }
 
 input FindManyReservationInput {
@@ -111,9 +124,7 @@ type Mutation {
   createMaintenance(createMaintenanceInput: CreateMaintenanceInput!): Maintenance!
   updateMaintenance(updateMaintenanceInput: UpdateMaintenanceInput!): Maintenance!
   removeMaintenance(id: Int!): Maintenance!
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  signup(signupInput: SignupInput!): AuthResponse!
 }
 
 input CreateReservationInput {
@@ -190,13 +201,8 @@ input UpdateMaintenanceInput {
   id: Int!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input SignupInput {
+  email: String!
+  username: String!
+  password: String!
 }

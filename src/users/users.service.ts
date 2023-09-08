@@ -1,28 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
+import { User } from '@prisma/client';
+import { UsersRepository } from './users.repository';
+import { SignupInput } from '../auth/dto/inputs/signup.input';
 
 @Injectable()
 export class UsersService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(private readonly usersRepository: UsersRepository) {}
+
+  create(signupInput: SignupInput): Promise<User> {
+    return this.usersRepository.create({ ...signupInput });
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  // findAll(): Promise<User[]> {
+  //   return [];
+  // }
+  //
+  // findOne(id: number): Promise<User> {
+  //   return `This action returns a #${id} user`;
+  // }
+  //
+  // block(id: string): Promise<User> {
+  //   return `This action removes a #${id} user`;
+  // }
 }
