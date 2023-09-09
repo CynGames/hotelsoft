@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { Role, User } from '@prisma/client';
-import { SignupInput } from '../auth/dto/inputs/signup.input';
+import { SignupInput } from '../auth/dto/inputs';
 
 @Injectable()
 export class UsersRepository {
@@ -15,5 +15,13 @@ export class UsersRepository {
     };
 
     return this.prismaService.user.create({ data: userData });
+  }
+
+  findOneByEmail(email: string): Promise<User> {
+    return this.prismaService.user.findUniqueOrThrow({ where: { email } });
+  }
+
+  findOneByID(userID: string): Promise<User> {
+    return this.prismaService.user.findUniqueOrThrow({ where: { userID } });
   }
 }

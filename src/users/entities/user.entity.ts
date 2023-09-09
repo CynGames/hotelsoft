@@ -27,6 +27,7 @@ export class User {
   @IsNotEmpty()
   email: string;
 
+  // TODO: Fix this
   @Field(() => String)
   @IsString()
   @IsNotEmpty()

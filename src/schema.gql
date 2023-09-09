@@ -86,6 +86,8 @@ type Query {
   payment(id: Int!): Payment!
   maintenances: [Maintenance!]!
   maintenance(id: Int!): Maintenance!
+  findUserByEmail(email: String!): User!
+  revalidate: AuthResponse!
 }
 
 input FindManyReservationInput {
@@ -125,6 +127,7 @@ type Mutation {
   updateMaintenance(updateMaintenanceInput: UpdateMaintenanceInput!): Maintenance!
   removeMaintenance(id: Int!): Maintenance!
   signup(signupInput: SignupInput!): AuthResponse!
+  login(login: LoginInput!): AuthResponse!
 }
 
 input CreateReservationInput {
@@ -204,5 +207,10 @@ input UpdateMaintenanceInput {
 input SignupInput {
   email: String!
   username: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
   password: String!
 }
