@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { Role, User } from '@prisma/client';
 import { SignupInput } from '../auth/dto/inputs';
+import { User, ValidRoles } from '@prisma/client';
 
 @Injectable()
 export class UsersRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(data: SignupInput): Promise<User> {
-    const userData = {
-      ...data,
-      role: data.role ?? Role.Guest,
-      isActive: data.isActive ?? true,
+  findAll(roles: ValidRoles[]): Promise<User[]> {
+    if (roles.length === 0) return this.prismaService.user.findMany({});
+
+    const where = {
+      roles: {
+        hasSome: roles,
+      },
     };
 
-    return this.prismaService.user.create({ data: userData });
+    return this.prismaService.user.findMany({ where });
   }
 
   findOneByEmail(email: string): Promise<User> {
@@ -23,5 +25,9 @@ export class UsersRepository {
 
   findOneByID(userID: string): Promise<User> {
     return this.prismaService.user.findUniqueOrThrow({ where: { userID } });
+  }
+
+  create(data: SignupInput): Promise<User> {
+    return this.prismaService.user.create({ data });
   }
 }

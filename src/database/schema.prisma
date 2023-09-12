@@ -1,11 +1,11 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = [env("PRISMA_BINARY_TARGETS")]
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = env("PRISMA_BINARY_TARGETS")
 }
 
 model Guest {
@@ -59,12 +59,12 @@ model Maintenance {
 }
 
 model User {
-  userID   String  @id @default(uuid())
+  userID   String       @id @default(uuid())
   username String
-  email    String  @unique
   password String
-  role     Role
-  isActive Boolean
+  isActive Boolean?
+  email    String       @unique
+  roles    ValidRoles[]
 }
 
 enum RoomStatus {
@@ -74,9 +74,9 @@ enum RoomStatus {
 }
 
 enum ReservationStatus {
-  Pending
   Confirmed
   Cancelled
+  Pending
 }
 
 enum InvoiceStatus {
@@ -105,7 +105,8 @@ enum MaintenanceStatus {
   Cancelled
 }
 
-enum Role {
-  Admin
-  Guest
+enum ValidRoles {
+  USER
+  SUPERVISOR
+  ADMIN
 }

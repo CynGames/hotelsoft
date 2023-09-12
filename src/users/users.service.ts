@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 
-import { User } from '@prisma/client';
+import { User, ValidRoles } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { SignupInput } from '../auth/dto/inputs';
 
@@ -23,9 +23,9 @@ export class UsersService {
     return this.usersRepository.create(newUser);
   }
 
-  // findAll(): Promise<User[]> {
-  //   return [];
-  // }
+  findAll(roles: ValidRoles[]): Promise<User[]> {
+    return this.usersRepository.findAll(roles);
+  }
 
   async findOneByEmail(email: string): Promise<User> {
     try {
