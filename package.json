@@ -12,6 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "generate:schema": "ts-node ./src/database/generate-schema.ts",
     "migrate": "prisma migrate deploy",
     "docker:migrate": "docker exec -it hotelsoft-app npx prisma migrate dev",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

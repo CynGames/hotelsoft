@@ -5,11 +5,11 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { ValidRoles } from '../enums/valid.roles.enum';
+import { ValidRoles } from '@prisma/client';
 
 export const CurrentUser = createParamDecorator(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (role: ValidRoles, context: ExecutionContext) => {
+  (roles: ValidRoles[], context: ExecutionContext) => {
     const ctx = GqlExecutionContext.create(context);
     const user = ctx.getContext().req.user;
 
@@ -19,10 +19,16 @@ export const CurrentUser = createParamDecorator(
       );
     }
 
-    if (user.role === role) return user;
+    if (roles.length === 0) return user;
+
+    for (const role of user.roles) {
+      if (roles.includes(role as ValidRoles)) {
+        return user;
+      }
+    }
 
     throw new ForbiddenException(
-      `User ${user.fullName} needs the role of [${role}] to access this resource.`,
+      `User ${user.username} needs the role of [${roles}] to access this resource.`,
     );
   },
 );

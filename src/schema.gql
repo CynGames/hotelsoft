@@ -42,9 +42,9 @@ scalar DateTime
 
 """The status of the reservation"""
 enum ReservationStatus {
-  Pending
   Confirmed
   Cancelled
+  Pending
 }
 
 type Room {
@@ -57,14 +57,14 @@ type User {
   username: String!
   email: String!
   password: String!
-  role: UserRole
+  roles: [ValidRoles!]
   isActive: Boolean
 }
 
-"""The role of the user"""
-enum UserRole {
-  Admin
-  Guest
+enum ValidRoles {
+  USER
+  SUPERVISOR
+  ADMIN
 }
 
 type AuthResponse {
@@ -86,6 +86,7 @@ type Query {
   payment(id: Int!): Payment!
   maintenances: [Maintenance!]!
   maintenance(id: Int!): Maintenance!
+  users(roles: [ValidRoles!] = []): [User!]!
   findUserByEmail(email: String!): User!
   revalidate: AuthResponse!
 }

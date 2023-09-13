@@ -1,3 +1,15 @@
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
 /*
   Warnings:
 
