@@ -14,14 +14,14 @@ import {
   FindManyReservationInput,
   UpdateReservationInput,
 } from './dto/inputs';
-import { Guest } from '../guests/entities/guest.entity';
-import { GuestsService } from '../guests/guests.service';
+import { User } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Resolver(() => Reservation)
 export class ReservationsResolver {
   constructor(
     private readonly reservationsService: ReservationsService,
-    private readonly guestsService: GuestsService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Query(() => [Reservation], { name: 'getReservations' })
@@ -68,12 +68,12 @@ export class ReservationsResolver {
     return this.reservationsService.remove(reservationID);
   }
 
-  @ResolveField(() => Guest, { nullable: true })
-  async getGuest(@Parent() reservation: Reservation): Promise<Guest> {
-    if (!reservation.guestID) {
+  @ResolveField(() => User, { nullable: true })
+  async getGuest(@Parent() reservation: Reservation): Promise<User> {
+    if (!reservation.userID) {
       return null;
     }
 
-    return await this.guestsService.getOne(reservation.guestID);
+    return await this.usersService.findOneByID(reservation.userID);
   }
 }

@@ -4,14 +4,14 @@ import {
   FindManyReservationInput,
   UpdateReservationInput,
 } from './dto/inputs/';
-import { GuestsRepository } from '../guests/guests.repository';
 import { ReservationsRepository } from './reservations.repository';
 import { Reservation } from './entities/reservation.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ReservationsService {
   constructor(
-    private readonly guestsRepository: GuestsRepository,
+    private readonly usersService: UsersService,
     private readonly reservationsRepository: ReservationsRepository,
   ) {}
 
@@ -28,13 +28,13 @@ export class ReservationsService {
   }
 
   create(createReservationInput: CreateReservationInput): Promise<Reservation> {
-    const { guestID } = createReservationInput;
+    const { userID } = createReservationInput;
 
-    if (guestID) {
-      const guest = this.guestsRepository.getByID(guestID);
+    if (userID) {
+      const guest = this.usersService.findOneByID(userID);
 
       if (!guest) {
-        throw new Error(`Guest with ID ${guestID} not found`);
+        throw new Error(`Guest with ID ${userID} not found`);
       }
     }
 

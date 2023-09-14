@@ -12,7 +12,12 @@ export class SignupInput extends PartialType(User) {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
-  username: string;
+  firstName: string;
+
+  @Field(() => String)
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
 
   @Field(() => String)
   @IsNotEmpty()

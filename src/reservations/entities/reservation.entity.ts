@@ -18,7 +18,7 @@ export class Reservation {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()
-  guestID: string;
+  userID: string;
 
   @Field(() => ID, { nullable: true })
   @IsOptional()
@@ -41,7 +41,4 @@ export class Reservation {
   status: ReservationStatus;
 }
 
-registerEnumType(ReservationStatus, {
-  name: 'ReservationStatus',
-  description: 'The status of the reservation',
-});
+registerEnumType(ReservationStatus, { name: 'ReservationStatus' });

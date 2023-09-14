@@ -15,7 +15,7 @@ export class UsersResolver {
   @Query(() => [User], { name: 'users' })
   async findAll(
     @Args() validRoles: ValidRolesArgs,
-    @CurrentUser([ValidRoles.ADMIN]) user: User,
+    @CurrentUser([ValidRoles.Admin]) user: User,
   ): Promise<User[]> {
     return this.usersService.findAll(validRoles.roles);
   }
@@ -26,9 +26,6 @@ export class UsersResolver {
   ): Promise<User> {
     return this.usersService.findOneByEmail(email);
   }
-
-  // TODO
-  // Hacer findeone por id, can pipe validator (parseUUIDPipe), current user decorator.
 
   // @Mutation(() => User)
   // block(@Args('id', { type: () => ID }) id: string) {

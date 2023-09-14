@@ -3,17 +3,16 @@ import { PrismaService } from '../database/prisma.service';
 import { ReservationsService } from './reservations.service';
 import { ReservationsResolver } from './reservations.resolver';
 import { ReservationsRepository } from './reservations.repository';
-import { GuestsRepository } from '../guests/guests.repository';
-import { GuestsService } from '../guests/guests.service';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   providers: [
-    GuestsRepository,
-    GuestsService,
     ReservationsRepository,
     ReservationsResolver,
     ReservationsService,
     PrismaService,
   ],
+  imports: [UsersModule],
+  exports: [PrismaService, ReservationsService, ReservationsRepository],
 })
 export class ReservationsModule {}
