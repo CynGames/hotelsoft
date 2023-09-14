@@ -52,7 +52,9 @@ export class AuthService {
     const user = await this.usersService.findOneByID(userID);
 
     if (!user.isActive) {
-      throw new UnauthorizedException(`User ${user.username} is blocked.`);
+      throw new UnauthorizedException(
+        `User ${user.firstName} ${user.lastName} is blocked.`,
+      );
     }
 
     delete user.password;

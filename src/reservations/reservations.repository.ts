@@ -8,26 +8,26 @@ import {
 
 @Injectable()
 export class ReservationsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   getAll() {
-    return this.prisma.reservation.findMany();
+    return this.prismaService.reservation.findMany();
   }
 
   getMany(where: FindManyReservationInput) {
-    return this.prisma.reservation.findMany({ where });
+    return this.prismaService.reservation.findMany({ where });
   }
 
   getByID(reservationID: string) {
-    return this.prisma.reservation.findUniqueOrThrow({
+    return this.prismaService.reservation.findUniqueOrThrow({
       where: { reservationID },
     });
   }
 
   create(data: CreateReservationInput) {
-    return this.prisma.reservation.create({
+    return this.prismaService.reservation.create({
       data: {
-        guestID: data.guestID,
+        userID: data.userID,
         roomID: data.roomID,
         checkIn: data.checkIn,
         checkOut: data.checkOut,
@@ -37,10 +37,13 @@ export class ReservationsRepository {
   }
 
   update(reservationID: string, data: UpdateReservationInput) {
-    return this.prisma.reservation.update({ data, where: { reservationID } });
+    return this.prismaService.reservation.update({
+      data,
+      where: { reservationID },
+    });
   }
 
   remove(reservationID: string) {
-    return this.prisma.reservation.delete({ where: { reservationID } });
+    return this.prismaService.reservation.delete({ where: { reservationID } });
   }
 }

@@ -1,19 +1,13 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 import { ReservationStatus } from '@prisma/client';
-import {
-  IsDate,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsUUID,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
 @InputType()
 export class CreateReservationInput {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()
-  guestID: string;
+  userID: string;
 
   @Field(() => ID)
   @IsOptional()
@@ -22,12 +16,10 @@ export class CreateReservationInput {
 
   @Field(() => Date)
   @IsNotEmpty()
-  @IsDate()
   checkIn: Date;
 
   @Field(() => Date)
   @IsNotEmpty()
-  @IsDate()
   checkOut: Date;
 
   @Field(() => ReservationStatus)

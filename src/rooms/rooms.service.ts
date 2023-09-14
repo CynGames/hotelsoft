@@ -3,21 +3,19 @@ import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
 
 @Injectable()
-export class RoomService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class RoomsService {
   create(createRoomInput: CreateRoomInput) {
     return 'This action adds a new room';
   }
 
   findAll() {
-    return `This action returns all room`;
+    return `This action returns all rooms`;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} room`;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateRoomInput: UpdateRoomInput) {
     return `This action updates a #${id} room`;
   }

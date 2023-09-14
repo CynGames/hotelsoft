@@ -4,7 +4,7 @@ import { ValidRoles } from '@prisma/client';
 
 @ArgsType()
 export class ValidRolesArgs {
-  @Field(() => [ValidRoles], { nullable: true })
+  @Field(() => [ValidRoles])
   @IsArray()
-  roles: ValidRoles[] = [];
+  roles: ValidRoles[] = ['Guest'];
 }

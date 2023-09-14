@@ -2,37 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Guest {
-  guestID: ID!
-  firstName: String!
-  lastName: String
-  email: String!
-  phoneNumber: String
-}
-
-type Invoice {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Maintenance {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Payment {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Reservation {
   reservationID: ID!
-  guestID: ID!
+  userID: ID!
   roomID: ID
   checkIn: DateTime!
   checkOut: DateTime!
   status: ReservationStatus!
-  getGuest: Guest
+  getGuest: User
 }
 
 """
@@ -40,31 +17,46 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-"""The status of the reservation"""
 enum ReservationStatus {
   Confirmed
   Cancelled
   Pending
 }
 
-type Room {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type User {
   userID: ID!
-  username: String!
+  firstName: String!
+  lastName: String!
   email: String!
   password: String!
-  roles: [ValidRoles!]
+  phoneNumber: String!
   isActive: Boolean
+  roles: [ValidRoles!]
 }
 
 enum ValidRoles {
-  USER
-  SUPERVISOR
-  ADMIN
+  Guest
+  Supervisor
+  Admin
+}
+
+type Room {
+  roomID: ID!
+  type: RoomType!
+  price: Int!
+  status: RoomStatus!
+}
+
+enum RoomType {
+  Single
+  Double
+  Suite
+}
+
+enum RoomStatus {
+  Available
+  Booked
+  Occupied
 }
 
 type AuthResponse {
@@ -76,63 +68,36 @@ type Query {
   getReservations: [Reservation!]!
   getManyReservations(params: FindManyReservationInput!): [Reservation!]!
   getOneReservation(reservationID: ID!): Reservation!
-  guests: [Guest!]!
-  guestsWithParams(params: FindManyGuestInput!): [Guest!]!
-  guest(guestID: ID!): Guest!
-  room(id: Int!): Room!
-  invoices: [Invoice!]!
-  invoice(id: Int!): Invoice!
-  payments: [Payment!]!
-  payment(id: Int!): Payment!
-  maintenances: [Maintenance!]!
-  maintenance(id: Int!): Maintenance!
-  users(roles: [ValidRoles!] = []): [User!]!
+  users(roles: [ValidRoles!]! = [Guest]): [User!]!
   findUserByEmail(email: String!): User!
   revalidate: AuthResponse!
+  rooms: [Room!]!
+  room(id: Int!): Room!
 }
 
 input FindManyReservationInput {
   reservationID: ID
-  guestID: ID
+  userID: ID
   roomID: ID
   checkIn: DateTime
   checkOut: DateTime
   status: ReservationStatus
 }
 
-input FindManyGuestInput {
-  guestID: ID
-  firstName: String
-  lastName: String
-  email: String
-  phoneNumber: String
-}
-
 type Mutation {
   createReservation(createReservationInput: CreateReservationInput!): Reservation!
   updateReservation(reservationID: String!, updateReservationInput: UpdateReservationInput!): Reservation!
   removeReservation(reservationID: String!): Reservation!
-  create(createGuestInput: CreateGuestInput!): Guest!
-  update(guestID: String!, updateGuestInput: UpdateGuestInput!): Guest!
-  remove(guestID: ID!): Guest!
+  signup(signupInput: SignupInput!): AuthResponse!
+  login(login: LoginInput!): AuthResponse!
+  executeSeed: Boolean!
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(id: Int!): Room!
-  createInvoice(createInvoiceInput: CreateInvoiceInput!): Invoice!
-  updateInvoice(updateInvoiceInput: UpdateInvoiceInput!): Invoice!
-  removeInvoice(id: Int!): Invoice!
-  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
-  updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
-  removePayment(id: Int!): Payment!
-  createMaintenance(createMaintenanceInput: CreateMaintenanceInput!): Maintenance!
-  updateMaintenance(updateMaintenanceInput: UpdateMaintenanceInput!): Maintenance!
-  removeMaintenance(id: Int!): Maintenance!
-  signup(signupInput: SignupInput!): AuthResponse!
-  login(login: LoginInput!): AuthResponse!
 }
 
 input CreateReservationInput {
-  guestID: ID!
+  userID: ID!
   roomID: ID!
   checkIn: DateTime!
   checkOut: DateTime!
@@ -140,78 +105,34 @@ input CreateReservationInput {
 }
 
 input UpdateReservationInput {
-  guestID: ID
+  userID: ID
   roomID: ID
   checkIn: DateTime
   checkOut: DateTime
   status: ReservationStatus
 }
 
-input CreateGuestInput {
-  firstName: String!
-  lastName: String
-  email: String!
-  phoneNumber: String
-}
-
-input UpdateGuestInput {
-  firstName: String
-  lastName: String
-  email: String
-  phoneNumber: String
-}
-
-input CreateRoomInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateRoomInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateInvoiceInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateInvoiceInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateMaintenanceInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateMaintenanceInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input SignupInput {
   email: String!
-  username: String!
+  firstName: String!
+  lastName: String!
   password: String!
 }
 
 input LoginInput {
   email: String!
   password: String!
+}
+
+input CreateRoomInput {
+  type: RoomType!
+  price: Int!
+  status: RoomStatus!
+}
+
+input UpdateRoomInput {
+  type: RoomType
+  price: Int
+  status: RoomStatus
+  id: Int!
 }
