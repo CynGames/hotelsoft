@@ -23,15 +23,15 @@ model User {
 model Room {
   roomID      String        @id @default(uuid())
   type        RoomType
-  price       Decimal
+  price       Int
   status      RoomStatus
-  Reservation Reservation[]
+  reservation Reservation[]
 }
 
 model Reservation {
   reservationID String            @id @default(uuid())
-  userID        String?
-  roomID        String?
+  userID        String
+  roomID        String
   checkIn       DateTime
   checkOut      DateTime
   status        ReservationStatus
@@ -62,71 +62,3 @@ enum ReservationStatus {
   Cancelled
   Pending
 }
-
-// model Guest {
-//   guestID      String        @id @default(uuid())
-//   firstName    String
-//   lastName     String?
-//   email        String        @unique
-//   phoneNumber  String?
-//   reservations Reservation[]
-// }
-//
-// model User {
-//   userID   String       @id @default(uuid())
-//   username String
-//   password String
-//   email    String       @unique
-//   isActive Boolean?
-//   roles    ValidRoles[]
-// }
-//
-// model Invoice {
-//   invoiceID     String        @id @default(uuid())
-//   reservationID String?
-//   amount        Decimal
-//   status        InvoiceStatus
-//   date          DateTime
-// }
-//
-// model Payment {
-//   paymentID String        @id @default(uuid())
-//   invoiceID String?
-//   amount    Decimal
-//   method    PaymentMethod
-//   date      DateTime
-// }
-//
-// model Maintenance {
-//   maintenanceID String            @id @default(uuid())
-//   roomID        String?
-//   description   String?
-//   status        MaintenanceStatus
-//   scheduledDate DateTime
-// }
-//
-// enum InvoiceStatus {
-//   Paid
-//   Unpaid
-// }
-//
-// enum PaymentMethod {
-//   Cash
-//   CreditCard
-//   DebitCard
-//   PayPal
-//   Venmo
-//   Zelle
-//   ApplePay
-//   GooglePay
-//   Bitcoin
-//   Ethereum
-//   Other
-// }
-//
-// enum MaintenanceStatus {
-//   Scheduled
-//   InProgress
-//   Completed
-//   Cancelled
-// }

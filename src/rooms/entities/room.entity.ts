@@ -1,4 +1,10 @@
-import { ObjectType, Field, registerEnumType, ID, Int } from '@nestjs/graphql';
+import {
+  ObjectType,
+  Field,
+  registerEnumType,
+  ID,
+  Float,
+} from '@nestjs/graphql';
 import { RoomStatus, RoomType } from '@prisma/client';
 
 @ObjectType()
@@ -9,7 +15,7 @@ export class Room {
   @Field(() => RoomType)
   type: RoomType;
 
-  @Field(() => Int)
+  @Field(() => Float)
   price: number;
 
   @Field(() => RoomStatus)

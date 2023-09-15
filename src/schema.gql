@@ -5,11 +5,12 @@
 type Reservation {
   reservationID: ID!
   userID: ID!
-  roomID: ID
+  roomID: ID!
   checkIn: DateTime!
   checkOut: DateTime!
   status: ReservationStatus!
-  getGuest: User
+  findUser: User
+  findRoom: Room
 }
 
 """
@@ -32,6 +33,7 @@ type User {
   phoneNumber: String!
   isActive: Boolean
   roles: [ValidRoles!]
+  findReservation: [Reservation!]
 }
 
 enum ValidRoles {
@@ -43,8 +45,9 @@ enum ValidRoles {
 type Room {
   roomID: ID!
   type: RoomType!
-  price: Int!
+  price: Float!
   status: RoomStatus!
+  findReservation: [Reservation!]
 }
 
 enum RoomType {
@@ -65,14 +68,16 @@ type AuthResponse {
 }
 
 type Query {
-  getReservations: [Reservation!]!
-  getManyReservations(params: FindManyReservationInput!): [Reservation!]!
-  getOneReservation(reservationID: ID!): Reservation!
-  users(roles: [ValidRoles!]! = [Guest]): [User!]!
-  findUserByEmail(email: String!): User!
+  findAllReservations: [Reservation!]!
+  findManyReservations(params: FindManyReservationInput!): [Reservation!]!
+  findOneReservation(reservationID: ID!): Reservation!
+  findCurrentUserReservation: Reservation!
+  findAllUsers: [User!]!
+  findOneUserByEmail(email: String!): User!
+  findAllRooms: [Room!]!
+  findManyRooms(params: FindManyRoomInput!): [Room!]!
+  findOneRoom(roomID: ID!): Room!
   revalidate: AuthResponse!
-  rooms: [Room!]!
-  room(id: Int!): Room!
 }
 
 input FindManyReservationInput {
@@ -84,16 +89,25 @@ input FindManyReservationInput {
   status: ReservationStatus
 }
 
+input FindManyRoomInput {
+  roomID: ID
+  type: RoomType
+  price: Float
+  status: RoomStatus
+}
+
 type Mutation {
   createReservation(createReservationInput: CreateReservationInput!): Reservation!
   updateReservation(reservationID: String!, updateReservationInput: UpdateReservationInput!): Reservation!
   removeReservation(reservationID: String!): Reservation!
+  blockUser(userID: ID!): User!
+  unblockUser(userID: ID!): User!
+  createRoom(createRoomInput: CreateRoomInput!): Room!
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
+  removeRoom(roomID: String!): Room!
   signup(signupInput: SignupInput!): AuthResponse!
   login(login: LoginInput!): AuthResponse!
   executeSeed: Boolean!
-  createRoom(createRoomInput: CreateRoomInput!): Room!
-  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
-  removeRoom(id: Int!): Room!
 }
 
 input CreateReservationInput {
@@ -112,6 +126,19 @@ input UpdateReservationInput {
   status: ReservationStatus
 }
 
+input CreateRoomInput {
+  type: RoomType!
+  price: Float!
+  status: RoomStatus!
+}
+
+input UpdateRoomInput {
+  type: RoomType
+  price: Float
+  status: RoomStatus
+  roomID: ID!
+}
+
 input SignupInput {
   email: String!
   firstName: String!
@@ -122,17 +149,4 @@ input SignupInput {
 input LoginInput {
   email: String!
   password: String!
-}
-
-input CreateRoomInput {
-  type: RoomType!
-  price: Int!
-  status: RoomStatus!
-}
-
-input UpdateRoomInput {
-  type: RoomType
-  price: Int
-  status: RoomStatus
-  id: Int!
 }

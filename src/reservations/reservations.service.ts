@@ -4,8 +4,9 @@ import {
   FindManyReservationInput,
   UpdateReservationInput,
 } from './dto/inputs/';
-import { ReservationsRepository } from './reservations.repository';
+
 import { Reservation } from './entities/reservation.entity';
+import { ReservationsRepository } from './reservations.repository';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -15,16 +16,24 @@ export class ReservationsService {
     private readonly reservationsRepository: ReservationsRepository,
   ) {}
 
-  getAll(): Promise<Reservation[]> {
-    return this.reservationsRepository.getAll();
+  findAll(): Promise<Reservation[]> {
+    return this.reservationsRepository.findAll();
   }
 
-  getMany(params: FindManyReservationInput): Promise<Reservation[]> {
-    return this.reservationsRepository.getMany(params);
+  findMany(params: FindManyReservationInput): Promise<Reservation[]> {
+    return this.reservationsRepository.findMany(params);
   }
 
-  getByID(reservationID: string): Promise<Reservation> {
-    return this.reservationsRepository.getByID(reservationID);
+  findByID(reservationID: string): Promise<Reservation> {
+    return this.reservationsRepository.findByReservationID(reservationID);
+  }
+
+  findByUserID(userID: string): Promise<Reservation[]> {
+    return this.reservationsRepository.findByUserID(userID);
+  }
+
+  findByRoomID(roomID: string): Promise<Reservation[]> {
+    return this.reservationsRepository.findByRoomID(roomID);
   }
 
   create(createReservationInput: CreateReservationInput): Promise<Reservation> {

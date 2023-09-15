@@ -1,39 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
+
 import {
   CreateReservationInput,
   FindManyReservationInput,
   UpdateReservationInput,
 } from './dto/inputs';
+import { Reservation } from '@prisma/client';
 
 @Injectable()
 export class ReservationsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  getAll() {
+  findAll() {
     return this.prismaService.reservation.findMany();
   }
 
-  getMany(where: FindManyReservationInput) {
+  findMany(where: FindManyReservationInput) {
     return this.prismaService.reservation.findMany({ where });
   }
 
-  getByID(reservationID: string) {
+  findByReservationID(reservationID: string): Promise<Reservation> {
     return this.prismaService.reservation.findUniqueOrThrow({
       where: { reservationID },
     });
   }
 
-  create(data: CreateReservationInput) {
-    return this.prismaService.reservation.create({
-      data: {
-        userID: data.userID,
-        roomID: data.roomID,
-        checkIn: data.checkIn,
-        checkOut: data.checkOut,
-        status: data.status,
-      },
+  findByUserID(userID: string): Promise<Reservation[]> {
+    return this.prismaService.reservation.findMany({ where: { userID } });
+  }
+
+  findByRoomID(roomID: string): Promise<Reservation[]> {
+    return this.prismaService.reservation.findMany({
+      where: { roomID },
     });
+  }
+
+  create(data: CreateReservationInput) {
+    return this.prismaService.reservation.create({ data });
   }
 
   update(reservationID: string, data: UpdateReservationInput) {
