@@ -1,12 +1,15 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
-import { LoginInput, SignupInput } from './dto/inputs';
-import { AuthResponse } from './types/auth.response.type';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from './guards/jwt.auth.guard';
-import { CurrentUser } from './decorators/current.user.decorator';
-import { User } from '../users/entities/user.entity';
+
 import { ValidRoles } from '@prisma/client';
+import { CurrentUser } from './decorators/current.user.decorator';
+
+import { User } from '../users/entities/user.entity';
+import { AuthResponse } from './types/auth.response.type';
+import { AuthService } from './auth.service';
+
+import { JwtAuthGuard } from './guards/jwt.auth.guard';
+import { LoginInput, SignupInput } from './dto/inputs';
 
 @Resolver(() => AuthResponse)
 export class AuthResolver {

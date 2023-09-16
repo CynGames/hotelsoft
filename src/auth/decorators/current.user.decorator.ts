@@ -4,11 +4,11 @@ import {
   ForbiddenException,
   InternalServerErrorException,
 } from '@nestjs/common';
+
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { ValidRoles } from '@prisma/client';
 
 export const CurrentUser = createParamDecorator(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (roles: ValidRoles[], context: ExecutionContext) => {
     const ctx = GqlExecutionContext.create(context);
     const user = ctx.getContext().req.user;

@@ -1,11 +1,5 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import {
-  IsDate,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsUUID,
-} from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 import { ReservationStatus } from '@prisma/client';
 
 @ObjectType()
@@ -20,10 +14,10 @@ export class Reservation {
   @IsUUID()
   userID: string;
 
-  @Field(() => ID, { nullable: true })
-  @IsOptional()
+  @Field(() => ID)
+  @IsNotEmpty()
   @IsUUID()
-  roomID?: string;
+  roomID: string;
 
   @Field(() => Date)
   @IsNotEmpty()
