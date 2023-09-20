@@ -1,16 +1,25 @@
-import { CreateRoomInput } from './dto/create-room.input';
+import { CreateRoomInput } from './dto/inputs/create-room.input';
 import { PrismaService } from '../database/prisma.service';
 import { Room } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { UpdateRoomInput } from './dto/update-room.input';
-import { FindManyRoomInput } from './dto/findMany.room.input';
+import { UpdateRoomInput } from './dto/inputs/update-room.input';
+import { FindManyRoomInput } from './dto/inputs/findMany.room.input';
+import { RoomQueryParamsDto } from './dto/args/room-query-params.dto';
+import { IRoomPagination } from './entities/room-pagination.model';
 
 @Injectable()
 export class RoomsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findAll(): Promise<Room[]> {
-    return this.prismaService.room.findMany();
+  async findAll({
+    skip,
+    take,
+    ...where
+  }: RoomQueryParamsDto): Promise<IRoomPagination> {
+    const total = await this.prismaService.room.count({ where });
+    const data = await this.prismaService.room.findMany({ skip, take, where });
+
+    return { total, data };
   }
 
   findMany(where: FindManyRoomInput) {

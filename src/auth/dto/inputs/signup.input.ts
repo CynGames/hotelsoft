@@ -23,4 +23,10 @@ export class SignupInput extends PartialType(User) {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+
+  @Field(() => String)
+  phoneNumber: string;
+
+  @Field(() => Boolean)
+  isActive: boolean;
 }

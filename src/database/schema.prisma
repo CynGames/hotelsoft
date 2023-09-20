@@ -11,29 +11,29 @@ datasource db {
 model User {
   userID       String        @id @default(uuid())
   firstName    String
-  lastName     String?
+  lastName     String
   email        String        @unique
   password     String
-  phoneNumber  String?
-  isActive     Boolean?
+  phoneNumber  String
+  isActive     Boolean
   roles        ValidRoles[]
   reservations Reservation[]
 }
 
 model Room {
-  roomID      String        @id @default(uuid())
-  type        RoomType
-  price       Int
-  status      RoomStatus
-  reservation Reservation[]
+  roomID       String        @id @default(uuid())
+  type         RoomType
+  price        Int
+  status       RoomStatus
+  reservations Reservation[]
 }
 
 model Reservation {
   reservationID String            @id @default(uuid())
   userID        String
   roomID        String
-  checkIn       DateTime
-  checkOut      DateTime
+  checkInAt     DateTime
+  checkOutAt    DateTime
   status        ReservationStatus
   user          User?             @relation(fields: [userID], references: [userID])
   room          Room?             @relation(fields: [roomID], references: [roomID])

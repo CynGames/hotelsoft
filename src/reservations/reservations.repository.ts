@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 
-import {
-  CreateReservationInput,
-  FindManyReservationInput,
-  UpdateReservationInput,
-} from './dto/inputs';
+import { CreateReservationInput, UpdateReservationInput } from './dto/inputs';
 import { Reservation } from '@prisma/client';
+import { ReservationQueryParamsDto } from './dto/args/reservation-query-params.dto';
+import { IReservationPagination } from './entities/reservation-pagination.model';
 
 @Injectable()
 export class ReservationsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findAll() {
-    return this.prismaService.reservation.findMany();
-  }
+  async findAll({
+    skip,
+    take,
+    ...where
+  }: ReservationQueryParamsDto): Promise<IReservationPagination> {
+    const total = await this.prismaService.reservation.count({ where });
+    const data = await this.prismaService.reservation.findMany({
+      skip,
+      take,
+      where,
+    });
 
-  findMany(where: FindManyReservationInput) {
-    return this.prismaService.reservation.findMany({ where });
+    return { total, data };
   }
 
   findByReservationID(reservationID: string): Promise<Reservation> {
@@ -26,7 +31,7 @@ export class ReservationsRepository {
     });
   }
 
-  findByUserID(userID: string): Promise<Reservation[]> {
+  async findByUserID(userID: string): Promise<Reservation[]> {
     return this.prismaService.reservation.findMany({ where: { userID } });
   }
 
@@ -37,6 +42,7 @@ export class ReservationsRepository {
   }
 
   create(data: CreateReservationInput) {
+    // @ts-ignore
     return this.prismaService.reservation.create({ data });
   }
 
