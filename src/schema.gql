@@ -6,8 +6,8 @@ type Reservation {
   reservationID: ID!
   userID: ID!
   roomID: ID!
-  checkIn: DateTime!
-  checkOut: DateTime!
+  checkInAt: DateTime!
+  checkOutAt: DateTime!
   status: ReservationStatus!
   findUser: User
   findRoom: Room
@@ -68,32 +68,29 @@ type AuthResponse {
 }
 
 type Query {
-  findAllReservations: [Reservation!]!
-  findManyReservations(params: FindManyReservationInput!): [Reservation!]!
+  findAllReservations(skip: Int = 0, take: Int = 20, userID: ID, roomID: ID, checkInAt: DateTime, checkOutAt: DateTime, status: ReservationStatus): ReservationPagination!
   findOneReservation(reservationID: ID!): Reservation!
   findCurrentUserReservation: Reservation!
-  findAllUsers: [User!]!
+  findAllUsers(skip: Int = 0, take: Int = 20, firstName: String, lastName: String, email: String, phoneNumber: String, isActive: Boolean): UserPagination!
   findOneUserByEmail(email: String!): User!
-  findAllRooms: [Room!]!
-  findManyRooms(params: FindManyRoomInput!): [Room!]!
+  findAllRooms(skip: Int = 0, take: Int = 20, type: RoomType!, price: Float!, status: RoomStatus!): RoomPagination!
   findOneRoom(roomID: ID!): Room!
   revalidate: AuthResponse!
 }
 
-input FindManyReservationInput {
-  reservationID: ID
-  userID: ID
-  roomID: ID
-  checkIn: DateTime
-  checkOut: DateTime
-  status: ReservationStatus
+type ReservationPagination {
+  total: Float!
+  data: [Reservation!]!
 }
 
-input FindManyRoomInput {
-  roomID: ID
-  type: RoomType
-  price: Float
-  status: RoomStatus
+type UserPagination {
+  total: Float!
+  data: [User!]!
+}
+
+type RoomPagination {
+  total: Float!
+  data: [Room!]!
 }
 
 type Mutation {
@@ -113,16 +110,16 @@ type Mutation {
 input CreateReservationInput {
   userID: ID!
   roomID: ID!
-  checkIn: DateTime!
-  checkOut: DateTime!
+  checkInAt: DateTime!
+  checkOutAt: DateTime!
   status: ReservationStatus!
 }
 
 input UpdateReservationInput {
   userID: ID
   roomID: ID
-  checkIn: DateTime
-  checkOut: DateTime
+  checkInAt: DateTime
+  checkOutAt: DateTime
   status: ReservationStatus
 }
 
@@ -144,6 +141,8 @@ input SignupInput {
   firstName: String!
   lastName: String!
   password: String!
+  phoneNumber: String!
+  isActive: Boolean!
 }
 
 input LoginInput {

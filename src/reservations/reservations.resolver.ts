@@ -7,11 +7,7 @@ import {
   Parent,
   ID,
 } from '@nestjs/graphql';
-import {
-  CreateReservationInput,
-  FindManyReservationInput,
-  UpdateReservationInput,
-} from './dto/inputs';
+import { CreateReservationInput, UpdateReservationInput } from './dto/inputs';
 
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.auth.guard';
@@ -26,6 +22,9 @@ import { ReservationsService } from './reservations.service';
 import { CurrentUser } from '../auth/decorators/current.user.decorator';
 import { ValidRoles } from '@prisma/client';
 
+import { ReservationQueryParamsDto } from './dto/args/reservation-query-params.dto';
+import { ReservationPagination } from './entities/reservation-pagination.model';
+
 @Resolver(() => Reservation)
 @UseGuards(JwtAuthGuard)
 export class ReservationsResolver {
@@ -35,19 +34,9 @@ export class ReservationsResolver {
     private readonly roomsService: RoomsService,
   ) {}
 
-  @Query(() => [Reservation], { name: 'findAllReservations' })
-  findAll(
-    @CurrentUser([ValidRoles.Supervisor]) user: User,
-  ): Promise<Reservation[]> {
-    return this.reservationsService.findAll();
-  }
-
-  @Query(() => [Reservation], { name: 'findManyReservations' })
-  findMany(
-    @CurrentUser([ValidRoles.Supervisor]) user: User,
-    @Args('params') params: FindManyReservationInput,
-  ): Promise<Reservation[]> {
-    return this.reservationsService.findMany(params);
+  @Query(() => ReservationPagination, { name: 'findAllReservations' })
+  findAll(@Args() reservationQueryParams: ReservationQueryParamsDto) {
+    return this.reservationsService.findAll(reservationQueryParams);
   }
 
   @Query(() => Reservation, { name: 'findOneReservation' })

@@ -2,20 +2,16 @@ import { Injectable } from '@nestjs/common';
 
 import { Room } from '@prisma/client';
 import { RoomsRepository } from './rooms.repository';
-import { CreateRoomInput } from './dto/create-room.input';
-import { UpdateRoomInput } from './dto/update-room.input';
-import { FindManyRoomInput } from './dto/findMany.room.input';
+import { CreateRoomInput } from './dto/inputs/create-room.input';
+import { UpdateRoomInput } from './dto/inputs/update-room.input';
+import { RoomQueryParamsDto } from './dto/args/room-query-params.dto';
 
 @Injectable()
 export class RoomsService {
   constructor(private readonly roomsRepository: RoomsRepository) {}
 
-  findAll(): Promise<Room[]> {
-    return this.roomsRepository.findAll();
-  }
-
-  findMany(params: FindManyRoomInput): Promise<Room[]> {
-    return this.roomsRepository.findMany(params);
+  findAll(roomQueryParams: RoomQueryParamsDto) {
+    return this.roomsRepository.findAll(roomQueryParams);
   }
 
   findOneByID(roomID: string): Promise<Room> {

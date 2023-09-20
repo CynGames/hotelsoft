@@ -4,13 +4,14 @@ import * as bcrypt from 'bcryptjs';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { SignupInput } from '../auth/dto/inputs';
+import { UserQueryParamsDto } from './dto/args/user-query-params.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.findAll();
+  findAll(userQueryParams: UserQueryParamsDto) {
+    return this.usersRepository.findAll(userQueryParams);
   }
 
   findOneByEmail(email: string): Promise<User> {

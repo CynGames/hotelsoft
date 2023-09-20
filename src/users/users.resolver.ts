@@ -18,6 +18,8 @@ import { CurrentUser } from '../auth/decorators/current.user.decorator';
 import { ValidRoles } from '@prisma/client';
 import { Reservation } from '../reservations/entities/reservation.entity';
 import { ReservationsService } from '../reservations/reservations.service';
+import { UserQueryParamsDto } from './dto/args/user-query-params.dto';
+import { UserPagination } from './entities/user-pagination.model';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard)
@@ -27,9 +29,9 @@ export class UsersResolver {
     private readonly reservationsService: ReservationsService,
   ) {}
 
-  @Query(() => [User], { name: 'findAllUsers' })
-  findAll(@CurrentUser([ValidRoles.Admin]) user: User): Promise<User[]> {
-    return this.usersService.findAll();
+  @Query(() => UserPagination, { name: 'findAllUsers' })
+  findAll(@Args() userQueryParams: UserQueryParamsDto) {
+    return this.usersService.findAll(userQueryParams);
   }
 
   @Query(() => User, { name: 'findOneUserByEmail' })
@@ -56,7 +58,7 @@ export class UsersResolver {
   }
 
   @ResolveField(() => [Reservation], { nullable: true })
-  findReservation(@Parent() user: User): Promise<Reservation[]> {
+  findReservation(@Parent() user: User) {
     if (!user.userID) {
       return null;
     }

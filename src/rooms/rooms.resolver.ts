@@ -11,14 +11,16 @@ import { RoomsService } from './rooms.service';
 import { Room } from './entities/room.entity';
 import { Reservation } from '../reservations/entities/reservation.entity';
 import { ReservationsService } from '../reservations/reservations.service';
-import { CreateRoomInput } from './dto/create-room.input';
-import { UpdateRoomInput } from './dto/update-room.input';
-import { FindManyRoomInput } from './dto/findMany.room.input';
+import { CreateRoomInput } from './dto/inputs/create-room.input';
+import { UpdateRoomInput } from './dto/inputs/update-room.input';
+import { FindManyRoomInput } from './dto/inputs/findMany.room.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.auth.guard';
 import { CurrentUser } from '../auth/decorators/current.user.decorator';
 import { ValidRoles } from '@prisma/client';
 import { User } from '../users/entities/user.entity';
+import { RoomPagination } from './entities/room-pagination.model';
+import { RoomQueryParamsDto } from './dto/args/room-query-params.dto';
 
 @Resolver(() => Room)
 @UseGuards(JwtAuthGuard)
@@ -28,17 +30,9 @@ export class RoomsResolver {
     private readonly reservationsService: ReservationsService,
   ) {}
 
-  @Query(() => [Room], { name: 'findAllRooms' })
-  findAll(@CurrentUser([ValidRoles.Supervisor]) user: User): Promise<Room[]> {
-    return this.roomsService.findAll();
-  }
-
-  @Query(() => [Room], { name: 'findManyRooms' })
-  findMany(
-    @CurrentUser([ValidRoles.Supervisor]) user: User,
-    @Args('params') params: FindManyRoomInput,
-  ): Promise<Room[]> {
-    return this.roomsService.findMany(params);
+  @Query(() => RoomPagination, { name: 'findAllRooms' })
+  findAll(@Args() roomQueryParams: RoomQueryParamsDto) {
+    return this.roomsService.findAll(roomQueryParams);
   }
 
   @Query(() => Room, { name: 'findOneRoom' })
@@ -71,8 +65,6 @@ export class RoomsResolver {
 
   @ResolveField(() => [Reservation], { nullable: true })
   async findReservation(@Parent() room: Room): Promise<Reservation[]> {
-    console.log(room);
-
     if (!room.roomID) {
       return null;
     }

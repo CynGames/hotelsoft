@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateReservationInput,
-  FindManyReservationInput,
-  UpdateReservationInput,
-} from './dto/inputs/';
+import { CreateReservationInput, UpdateReservationInput } from './dto/inputs/';
 
 import { Reservation } from './entities/reservation.entity';
 import { ReservationsRepository } from './reservations.repository';
 import { UsersService } from '../users/users.service';
+import { ReservationQueryParamsDto } from './dto/args/reservation-query-params.dto';
 
 @Injectable()
 export class ReservationsService {
@@ -16,12 +13,8 @@ export class ReservationsService {
     private readonly reservationsRepository: ReservationsRepository,
   ) {}
 
-  findAll(): Promise<Reservation[]> {
-    return this.reservationsRepository.findAll();
-  }
-
-  findMany(params: FindManyReservationInput): Promise<Reservation[]> {
-    return this.reservationsRepository.findMany(params);
+  findAll(reservationQueryParamsDto: ReservationQueryParamsDto) {
+    return this.reservationsRepository.findAll(reservationQueryParamsDto);
   }
 
   findByID(reservationID: string): Promise<Reservation> {

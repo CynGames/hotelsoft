@@ -17,12 +17,12 @@ export class CreateReservationInput {
   @Field(() => Date)
   @IsNotEmpty()
   @IsDate()
-  checkIn: Date;
+  checkInAt: Date;
 
   @Field(() => Date)
   @IsNotEmpty()
   @IsDate()
-  checkOut: Date;
+  checkOutAt: Date;
 
   @Field(() => ReservationStatus)
   @IsNotEmpty()
