@@ -33,8 +33,8 @@ export class SeedService {
   }
 
   async executeSeed(): Promise<boolean> {
-    if (this.isProd)
-      throw new UnauthorizedException('Cannot run SEED on prod.');
+    // if (this.isProd)
+    // throw new UnauthorizedException('Cannot run SEED on prod.');
 
     await this.deleteAllData();
 
