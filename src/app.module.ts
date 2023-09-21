@@ -31,4 +31,14 @@ import { SeedModule } from './seed/seed.module';
   providers: [PrismaService],
   exports: [PrismaService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log('STATE', process.env.STATE);
+    console.log('host', process.env.APP_HOST);
+    console.log('port', process.env.APP_PORT);
+    console.log('user', process.env.POSTGRES_USER);
+    console.log('POSTGRES_PASSWORD', process.env.POSTGRES_PASSWORD);
+    console.log('POSTGRES_DB', process.env.POSTGRES_DB);
+    console.log('DATABASE_URL', process.env.DATABASE_URL);
+  }
+}
