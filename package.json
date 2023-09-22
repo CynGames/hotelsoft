@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "docker:build:image": "docker-compose -f docker-compose.prod.yaml --env-file .env.production up --build",
+    "docker:run:image": "docker-compose -f docker-compose.prod.yaml --env-file .env.production up",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

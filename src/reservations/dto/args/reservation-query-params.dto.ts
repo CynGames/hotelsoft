@@ -1,7 +1,7 @@
 import { PaginationQueryParamsDto } from '../../../common/pagination.query.args';
 
 import { ArgsType, Field, ID } from '@nestjs/graphql';
-import { IsDate, IsEnum, IsOptional, IsUUID } from 'class-validator';
+import { IsDate, IsOptional, IsUUID } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 import { ReservationStatus } from '@prisma/client';
@@ -32,6 +32,5 @@ export class ReservationQueryParamsDto extends PaginationQueryParamsDto {
 
   @Field(() => ReservationStatus, { nullable: true })
   @IsOptional()
-  @IsEnum(ReservationStatus)
   status?: ReservationStatus;
 }
