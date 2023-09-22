@@ -26,6 +26,5 @@ export class CreateReservationInput {
 
   @Field(() => ReservationStatus)
   @IsNotEmpty()
-  @IsEnum(ReservationStatus)
   status: ReservationStatus;
 }

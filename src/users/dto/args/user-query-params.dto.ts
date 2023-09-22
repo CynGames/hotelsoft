@@ -1,11 +1,8 @@
 import { PaginationQueryParamsDto } from '../../../common/pagination.query.args';
 import { ArgsType, Field } from '@nestjs/graphql';
-import { ValidRoles } from '@prisma/client';
 import {
-  IsArray,
   IsBoolean,
   IsEmail,
-  IsEnum,
   IsOptional,
   IsPhoneNumber,
   IsString,
