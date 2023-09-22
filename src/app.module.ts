@@ -35,7 +35,7 @@ export class AppModule {
   constructor() {
     console.log('STATE', process.env.STATE);
     console.log('host', process.env.APP_HOST);
-    console.log('port', process.env.APP_PORT);
+    console.log('port', process.env.PORT);
     console.log('user', process.env.POSTGRES_USER);
     console.log('POSTGRES_PASSWORD', process.env.POSTGRES_PASSWORD);
     console.log('POSTGRES_DB', process.env.POSTGRES_DB);
