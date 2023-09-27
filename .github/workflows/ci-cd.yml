@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Change this to your default branch if it's not 'main'
+      - master
   pull_request:
     branches:
-      - main  # Again, change this if your default branch is named differently
+      - master
 
 jobs:
   build_and_test:
