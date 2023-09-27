@@ -29,7 +29,6 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
-  password: String!
   phoneNumber: String!
   isActive: Boolean
   roles: [ValidRoles!]
