@@ -30,18 +30,5 @@ RUN npm ci
 # Copy compiled application
 COPY --from=builder /app/dist ./dist
 
-# Copy generated Prisma Client
-#COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
-
-
 CMD [ "node","dist/main" ]
 
-
-
-#FROM node:18
-#WORKDIR /app
-#COPY package*.json ./
-#RUN npm install
-#COPY . .
-#RUN npm run build
-#CMD [ "npm", "run", "start:dev" ]

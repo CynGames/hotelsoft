@@ -16,9 +16,6 @@ export class User {
   email: string;
 
   @Field(() => String)
-  password: string;
-
-  @Field(() => String)
   phoneNumber?: string;
 
   @Field(() => Boolean, { nullable: true })
