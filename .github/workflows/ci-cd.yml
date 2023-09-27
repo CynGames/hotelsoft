@@ -1,0 +1,118 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
+  pull_request:
+    branches:
+      - main  # Again, change this if your default branch is named differently
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  build_and_push_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and Push Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft .
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft
+
+
+#name: CI/CD Pipeline
+#
+#on:
+#  push:
+#    branches:
+#      - master
+#  pull_request:
+#    branches:
+#      - master
+#
+#jobs:
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 14
+#
+#      - name: Install dependencies
+#        run: npm ci
+#
+#      - name: Run ESLint
+#        run: npx eslint .
+#
+#  test:
+#    runs-on: ubuntu-latest
+#    services:
+#      postgres:
+#        image: postgres:13
+#        env:
+#          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+#          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+#          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+#        ports:
+#          - 5432:5432
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 14
+#
+#      - name: Install dependencies
+#        run: npm ci
+#
+#      - name: Install Jest and ts-jest locally
+#        run: npm install jest ts-jest
+#
+#      - name: Wait for PostgreSQL to start
+#        run: sleep 10
+#
+#      - name: Run __tests__
+#        run: npm test -- --no-cache
+#        env:
+#          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#          JWT_SECRET: ${{ secrets.JWT_SECRET }}
