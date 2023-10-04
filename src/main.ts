@@ -3,10 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  // if (process.env.DATABASE_URL) {
-  //   process.env.DATABASE_URL = `${process.env.DATABASE_URL}?sslmode=disable`;
-  // }
-
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(

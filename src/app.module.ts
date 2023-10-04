@@ -13,9 +13,24 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
 
+function getEnvFilePath(): string[] {
+  const nodeEnv = process.env.NODE_ENV || 'test';
+  switch (nodeEnv) {
+    case 'test':
+      return ['.env', '.env'];
+    case 'production':
+      return ['.env'];
+    default:
+      return ['.env'];
+  }
+}
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: getEnvFilePath(),
+      isGlobal: true,
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
@@ -33,8 +48,8 @@ import { SeedModule } from './seed/seed.module';
 })
 export class AppModule {
   constructor() {
-    if (process.env.STATE !== 'test') {
-      console.log('STATE', process.env.STATE);
+    if (process.env.DEBUG == 'true') {
+      console.log('NODE_ENV', process.env.NODE_ENV);
       console.log('host', process.env.APP_HOST);
       console.log('port', process.env.PORT);
       console.log('user', process.env.POSTGRES_USER);

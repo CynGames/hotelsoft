@@ -29,7 +29,6 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
-  password: String!
   phoneNumber: String!
   isActive: Boolean
   roles: [ValidRoles!]
@@ -45,7 +44,7 @@ enum ValidRoles {
 type Room {
   roomID: ID!
   type: RoomType!
-  price: Float!
+  price: String!
   status: RoomStatus!
   findReservation: [Reservation!]
 }
@@ -73,7 +72,7 @@ type Query {
   findCurrentUserReservation: Reservation!
   findAllUsers(skip: Int = 0, take: Int = 20, firstName: String, lastName: String, email: String, phoneNumber: String, isActive: Boolean): UserPagination!
   findOneUserByEmail(email: String!): User!
-  findAllRooms(skip: Int = 0, take: Int = 20, type: RoomType!, price: Float!, status: RoomStatus!): RoomPagination!
+  findAllRooms(skip: Int = 0, take: Int = 20, type: RoomType, price: String, status: RoomStatus): RoomPagination!
   findOneRoom(roomID: ID!): Room!
   revalidate: AuthResponse!
 }
@@ -97,8 +96,8 @@ type Mutation {
   createReservation(createReservationInput: CreateReservationInput!): Reservation!
   updateReservation(reservationID: String!, updateReservationInput: UpdateReservationInput!): Reservation!
   removeReservation(reservationID: String!): Reservation!
-  blockUser(userID: ID!): User!
-  unblockUser(userID: ID!): User!
+  blockUser(email: String!): User!
+  unblockUser(email: String!): User!
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(roomID: String!): Room!
@@ -124,16 +123,16 @@ input UpdateReservationInput {
 }
 
 input CreateRoomInput {
-  type: RoomType!
-  price: Float!
-  status: RoomStatus!
+  type: RoomType
+  price: String
+  status: RoomStatus
 }
 
 input UpdateRoomInput {
-  type: RoomType
-  price: Float
-  status: RoomStatus
   roomID: ID!
+  type: RoomType
+  price: String
+  status: RoomStatus
 }
 
 input SignupInput {
@@ -143,6 +142,7 @@ input SignupInput {
   password: String!
   phoneNumber: String!
   isActive: Boolean!
+  roles: [ValidRoles!]
 }
 
 input LoginInput {

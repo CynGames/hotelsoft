@@ -32,7 +32,7 @@ export class UsersRepository {
     return this.prismaService.user.create({ data });
   }
 
-  update(userID: string, data: Partial<User>): Promise<User> {
-    return this.prismaService.user.update({ where: { userID }, data });
+  update(email: string, data: Partial<User>): Promise<User> {
+    return this.prismaService.user.update({ where: { email }, data });
   }
 }
