@@ -1,22 +1,20 @@
 import { PaginationQueryParamsDto } from '../../../common/pagination.query.args';
-import { ArgsType, Field, Float } from '@nestjs/graphql';
+import { ArgsType, Field } from '@nestjs/graphql';
 import { RoomStatus, RoomType } from '@prisma/client';
-import { IsNumber, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsOptional, IsString } from 'class-validator';
 
 @ArgsType()
 export class RoomQueryParamsDto extends PaginationQueryParamsDto {
-  @Field(() => RoomType)
+  @Field(() => RoomType, { nullable: true })
   @IsOptional()
   type?: RoomType;
 
-  @Field(() => Float)
-  @IsNumber()
-  @Transform(({ value }) => Number(value))
+  @Field(() => String, { nullable: true })
+  @IsString()
   @IsOptional()
-  price: number;
+  price?: string;
 
-  @Field(() => RoomStatus)
+  @Field(() => RoomStatus, { nullable: true })
   @IsOptional()
-  status: RoomStatus;
+  status?: RoomStatus;
 }

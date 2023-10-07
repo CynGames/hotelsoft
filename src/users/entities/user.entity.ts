@@ -4,7 +4,7 @@ import { ValidRoles } from '@prisma/client';
 @ObjectType()
 export class User {
   @Field(() => ID)
-  userID: string;
+  userID?: string;
 
   @Field(() => String)
   firstName?: string;
@@ -13,7 +13,7 @@ export class User {
   lastName?: string;
 
   @Field(() => String)
-  email: string;
+  email?: string;
 
   @Field(() => String)
   phoneNumber?: string;

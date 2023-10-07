@@ -1,25 +1,19 @@
-import {
-  ObjectType,
-  Field,
-  registerEnumType,
-  ID,
-  Float,
-} from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType, ID } from '@nestjs/graphql';
 import { RoomStatus, RoomType } from '@prisma/client';
 
 @ObjectType()
 export class Room {
   @Field(() => ID)
-  roomID: string;
+  roomID?: string;
 
   @Field(() => RoomType)
-  type: RoomType;
+  type?: RoomType;
 
-  @Field(() => Float)
-  price: number;
+  @Field(() => String)
+  price?: string;
 
   @Field(() => RoomStatus)
-  status: RoomStatus;
+  status?: RoomStatus;
 }
 
 registerEnumType(RoomType, { name: 'RoomType' });

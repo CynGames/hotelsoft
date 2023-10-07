@@ -29,20 +29,22 @@ export class SeedService {
     private readonly reservationRepository: ReservationsRepository,
     private readonly prismaService: PrismaService,
   ) {
-    this.isProd = configService.get('STATE') === 'prod';
+    this.isProd = configService.get('NODE_ENV') === 'prod';
   }
 
-  async executeSeed(): Promise<boolean> {
-    // if (this.isProd)
-    // throw new UnauthorizedException('Cannot run SEED on prod.');
+  async executeSeed() {
+    this.checkIfProd();
 
     await this.deleteAllData();
+    await this.seedData();
 
+    return true;
+  }
+
+  async seedData() {
     const users = await this.loadUsers();
     const rooms = await this.loadRooms();
     await this.loadReservations(users, rooms);
-
-    return true;
   }
 
   async deleteAllData() {
@@ -90,18 +92,34 @@ export class SeedService {
 
   async loadReservations(users: User[], rooms: Room[]): Promise<void> {
     const reservations = [];
+    let isFirstIteration = true;
 
     for (const reservation of SEED_RESERVATIONS) {
       const randomUser = users[Math.floor(Math.random() * users.length)];
       const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
 
-      reservation.userID = randomUser.userID;
       reservation.roomID = randomRoom.roomID;
+      reservation.userID = isFirstIteration
+        ? await this.getAdminUser().then((value) => value.userID)
+        : randomUser.userID;
 
       reservations.push(await this.reservationRepository.create(reservation));
+
+      isFirstIteration = false;
     }
 
     if (reservations.length !== SEED_RESERVATIONS.length)
       throw new InternalServerErrorException('Cannot load reservations.');
+  }
+
+  checkIfProd(): void {
+    if (this.isProd)
+      throw new UnauthorizedException('You cannot seed in production');
+  }
+
+  async getAdminUser(): Promise<User> {
+    return await this.usersRepository.findOneByEmail(
+      'tomasm.leguizamon@gmail.com',
+    );
   }
 }

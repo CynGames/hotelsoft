@@ -39,11 +39,11 @@ export class UsersService {
     return this.usersRepository.create(newUser);
   }
 
-  block(id: string): Promise<User> {
-    return this.usersRepository.update(id, { isActive: true });
+  block(email: string): Promise<User> {
+    return this.usersRepository.update(email, { isActive: true });
   }
 
-  unblock(id: string): Promise<User> {
-    return this.usersRepository.update(id, { isActive: false });
+  unblock(email: string): Promise<User> {
+    return this.usersRepository.update(email, { isActive: false });
   }
 }

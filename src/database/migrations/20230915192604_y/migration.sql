@@ -28,7 +28,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Room" (
     "roomID" TEXT NOT NULL,
     "type" "RoomType" NOT NULL,
-    "price" INTEGER NOT NULL,
+    "price" TEXT NOT NULL,
     "status" "RoomStatus" NOT NULL,
 
     CONSTRAINT "Room_pkey" PRIMARY KEY ("roomID")

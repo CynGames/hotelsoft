@@ -3,7 +3,6 @@ import { PrismaService } from '../database/prisma.service';
 import { Room } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { UpdateRoomInput } from './dto/inputs/update-room.input';
-import { FindManyRoomInput } from './dto/inputs/findMany.room.input';
 import { RoomQueryParamsDto } from './dto/args/room-query-params.dto';
 import { IRoomPagination } from './entities/room-pagination.model';
 
@@ -20,10 +19,6 @@ export class RoomsRepository {
     const data = await this.prismaService.room.findMany({ skip, take, where });
 
     return { total, data };
-  }
-
-  findMany(where: FindManyRoomInput) {
-    return this.prismaService.room.findMany({ where });
   }
 
   findOneByID(roomID: string): Promise<Room> {

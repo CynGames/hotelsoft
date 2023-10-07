@@ -23,9 +23,11 @@ model User {
 model Room {
   roomID       String        @id @default(uuid())
   type         RoomType
-  price        Int
+  price        String
   status       RoomStatus
   reservations Reservation[]
+
+  @@map("rooms")
 }
 
 model Reservation {
@@ -35,8 +37,10 @@ model Reservation {
   checkInAt     DateTime
   checkOutAt    DateTime
   status        ReservationStatus
-  user          User?             @relation(fields: [userID], references: [userID])
-  room          Room?             @relation(fields: [roomID], references: [roomID])
+  user          User?             @relation(fields: [userID], references: [userID], onDelete: Cascade)
+  room          Room?             @relation(fields: [roomID], references: [roomID], onDelete: Cascade)
+
+  @@map("reservations")
 }
 
 enum ValidRoles {

@@ -13,7 +13,6 @@ import { Reservation } from '../reservations/entities/reservation.entity';
 import { ReservationsService } from '../reservations/reservations.service';
 import { CreateRoomInput } from './dto/inputs/create-room.input';
 import { UpdateRoomInput } from './dto/inputs/update-room.input';
-import { FindManyRoomInput } from './dto/inputs/findMany.room.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.auth.guard';
 import { CurrentUser } from '../auth/decorators/current.user.decorator';

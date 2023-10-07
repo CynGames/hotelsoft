@@ -1,6 +1,5 @@
 import {
   Args,
-  ID,
   Mutation,
   Parent,
   Query,
@@ -44,17 +43,17 @@ export class UsersResolver {
   @Mutation(() => User, { name: 'blockUser' })
   block(
     @CurrentUser([ValidRoles.Supervisor]) user: User,
-    @Args('userID', { type: () => ID }) userID: string,
+    @Args('email', { type: () => String }) email: string,
   ) {
-    return this.usersService.block(userID);
+    return this.usersService.block(email);
   }
 
   @Mutation(() => User, { name: 'unblockUser' })
   unblock(
     @CurrentUser([ValidRoles.Supervisor]) user: User,
-    @Args('userID', { type: () => ID }) userID: string,
+    @Args('email', { type: () => String }) email: string,
   ) {
-    return this.usersService.unblock(userID);
+    return this.usersService.unblock(email);
   }
 
   @ResolveField(() => [Reservation], { nullable: true })
