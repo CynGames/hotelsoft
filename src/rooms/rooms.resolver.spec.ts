@@ -154,6 +154,7 @@ describe('Rooms Resolver', () => {
         app,
         query: GET_ROOMS,
         jwtToken,
+        debug: true,
       });
 
       const found = findAllRooms.data.some((room: any) => {

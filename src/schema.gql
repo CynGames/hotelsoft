@@ -107,11 +107,11 @@ type Mutation {
 }
 
 input CreateReservationInput {
-  userID: ID!
-  roomID: ID!
-  checkInAt: DateTime!
-  checkOutAt: DateTime!
-  status: ReservationStatus!
+  userID: ID
+  roomID: ID
+  checkInAt: DateTime
+  checkOutAt: DateTime
+  status: ReservationStatus
 }
 
 input UpdateReservationInput {

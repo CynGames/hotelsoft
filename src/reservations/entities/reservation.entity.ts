@@ -4,22 +4,22 @@ import { ReservationStatus } from '@prisma/client';
 @ObjectType()
 export class Reservation {
   @Field(() => ID)
-  reservationID: string;
+  reservationID?: string;
 
   @Field(() => ID)
-  userID: string;
+  userID?: string;
 
   @Field(() => ID)
-  roomID: string;
+  roomID?: string;
 
   @Field(() => Date)
-  checkInAt: Date;
+  checkInAt?: Date;
 
   @Field(() => Date)
-  checkOutAt: Date;
+  checkOutAt?: Date;
 
   @Field(() => ReservationStatus)
-  status: ReservationStatus;
+  status?: ReservationStatus;
 }
 
 registerEnumType(ReservationStatus, { name: 'ReservationStatus' });
