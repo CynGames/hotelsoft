@@ -24,7 +24,7 @@ jobs:
 
     env:
       DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
-      PRISMA_BINARY_TARGETS: '['native","windows","linux-musl-openssl-3.0.x","linux-musl"]'
+      PRISMA_BINARY_TARGETS: linux-musl
 
     steps:
       - name: Checkout code
