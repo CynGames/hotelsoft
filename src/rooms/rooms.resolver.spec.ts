@@ -158,6 +158,7 @@ describe('Rooms Resolver', () => {
       });
 
       const found = findAllRooms.data.some((room: any) => {
+        console.log(room);
         return room.findReservation[0].status;
       });
 
