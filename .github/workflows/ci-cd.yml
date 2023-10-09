@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Print
-        run: echo $DATABASE_URL
+        run: echo ${{ vars.DATABASE_URL }}
 
       - name: Run migration in db
         run: DEBUG="*" npx prisma db push
