@@ -23,8 +23,7 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      PRISMA_BINARY_TARGETS: ${{ secrets.PRISMA_BINARY_TARGETS }}
+      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
 
     steps:
       - name: Checkout code
