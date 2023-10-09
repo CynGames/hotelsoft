@@ -39,10 +39,10 @@ jobs:
         run: npm ci
 
       - name: Print DB_URL SECRETS
-        run: echo "${{ toJSON(secrets) }}"
+        run: echo "${{ toJSON(secrets.DATABASE_URL) }}"
 
       - name: Print DB_URL VAR
-        run: echo "${{ toJSON(vars) }}"
+        run: echo "${{ toJSON(vars.DATABASE_URL) }}"
 
       - name: Run migration in db
         run: npx prisma db push
