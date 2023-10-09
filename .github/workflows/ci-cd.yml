@@ -12,19 +12,19 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: 123456
+          POSTGRES_USER: ${{ github.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ github.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432
+          - ${{ github.POSTGRES_PORT }}:${{ github.POSTGRES_PORT }}
 
     env:
-      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
-      PRISMA_BINARY_TARGETS: linux-musl
+      DATABASE_URL: ${{ github.DATABASE_URL }}
+      PRISMA_BINARY_TARGETS: ${{ github.PRISMA_BINARY_TARGETS }}
 
     steps:
       - name: Checkout code
