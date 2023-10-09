@@ -23,7 +23,7 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/grading-app
+      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
 
     steps:
       - name: Checkout code
