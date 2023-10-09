@@ -38,9 +38,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Print GITHUB
-        run: echo "${{ toJSON(github) }}"
-
       - name: Print DB_URL SECRETS
         run: echo "${{ toJSON(secrets) }}"
 
