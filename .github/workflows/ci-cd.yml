@@ -22,9 +22,9 @@ jobs:
         ports:
           - 5432:5432
 
-    env:
-      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
-      JWT_SECRET: Pandita
+#    env:
+#      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
+#      JWT_SECRET: Pandita
 
     steps:
       - name: Checkout code
