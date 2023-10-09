@@ -12,6 +12,7 @@
     "docker:migrate:test": "docker exec -it hotelsoft-app npx prisma migrate dev",
     "generate": "dotenv -e .env -- npx prisma generate",
     "migrate": "dotenv -e .env -- npx prisma migrate deploy",
+    "db:push": "npx prisma db push",
     "build": "nest build",
     "start:dev": "npx prisma migrate dev && nest start --watch",
     "test": "jest -i",

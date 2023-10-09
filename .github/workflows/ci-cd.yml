@@ -2,54 +2,117 @@ name: CI/CD Pipeline
 
 on:
   push:
-  pull_request:
+  workflow_dispatch:
 
 jobs:
-  build_and_test:
+  test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: 123456
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/grading-app
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Generate Prisma Client
-        run: npx prisma migrate dev
-        env:
-          PRISMA_BINARY_TARGETS: ${{ secrets.PRISMA_BINARY_TARGETS }}}
+      - name: Run migration in db
+        run: npm run db:push
 
       - name: Run tests
-        run: npm test
+        run: npm run test
 
-  build_and_push_docker:
-    runs-on: ubuntu-latest
+#      - name: Generate Prisma Client
+#        run: npx prisma migrate dev
+#        env:
+#          PRISMA_BINARY_TARGETS: ${{ secrets.PRISMA_BINARY_TARGETS }}}
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+#
+#  build_and_push_docker:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v2
+#
+#    - name: Login to DockerHub
+#      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+#
+#    - name: Build and Push Docker image
+#      run: |
+#        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft .
+#        docker push ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft
 
-    - name: Login to DockerHub
-      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
-    - name: Build and Push Docker image
-      run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft .
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/hotelsoft
-
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#    # Service containers to run with `container-job`
+#    services:
+#      # Label used to access the service container
+#      postgres:
+#        # Docker Hub image
+#        image: postgres
+#        # Provide the password for postgres
+#        env:
+#          POSTGRES_USER: postgres
+#          POSTGRES_PASSWORD: postgres
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
+#        ports:
+#          # Maps TCP port 5432 on service container to the host
+#          - 5432:5432
+#    env:
+#      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/grading-app
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-node@v1
+#        with:
+#          node-version: '12.x'
+#      - run: npm ci
+#      # run the migration in the test database
+#      - run: npm run db:push
+#      - run: npm run test
+#  deploy:
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'push' && github.ref == 'refs/heads/master' # Only deploy master
+#    needs: test
+#    steps:
+#      - uses: actions/checkout@v2
+#      - run: npm ci
+#      - name: Run production migration
+#        run: npm run migrate:deploy
+#        env:
+#          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#      - uses: akhileshns/heroku-deploy@v3.4.6
+#        with:
+#          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+#          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+#          heroku_email: ${{ secrets.HEROKU_EMAIL }}
 
 #name: CI/CD Pipeline
 #
