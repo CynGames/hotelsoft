@@ -23,10 +23,8 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: ${{ github.DATABASE_URL }}
-      PRISMA_BINARY_TARGETS: ${{ github.PRISMA_BINARY_TARGETS }}
-
-
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PRISMA_BINARY_TARGETS: ${{ secrets.PRISMA_BINARY_TARGETS }}
 
     steps:
       - name: Checkout code
