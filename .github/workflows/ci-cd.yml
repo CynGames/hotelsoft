@@ -12,19 +12,19 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: ${{ github.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ github.POSTGRES_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - ${{ github.POSTGRES_PORT }}:${{ github.POSTGRES_PORT }}
+          - ${{ secrets.POSTGRES_PORT }}:${{ secrets.POSTGRES_PORT }}
 
     env:
-      DATABASE_URL: ${{ github.DATABASE_URL }}
-      PRISMA_BINARY_TARGETS: ${{ github.PRISMA_BINARY_TARGETS }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PRISMA_BINARY_TARGETS: ${{ secrets.PRISMA_BINARY_TARGETS }}
 
     steps:
       - name: Checkout code
