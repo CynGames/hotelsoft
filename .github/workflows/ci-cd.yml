@@ -38,11 +38,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Debug env variables
-        run: echo DATABASE_URL=$DATABASE_URL && echo PRISMA_BINARY_TARGETS=$PRISMA_BINARY_TARGETS
-
       - name: Run migration in db
-        run: npm run db:push
+        run: DEBUG="*" npx prisma db push
 
       - name: Run tests
         run: npm run test
