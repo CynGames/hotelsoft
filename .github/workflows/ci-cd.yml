@@ -22,9 +22,9 @@ jobs:
         ports:
           - 5432:5432
 
-#    env:
-#      DATABASE_URL: postgres://admin:123456@localhost:5432/hotelsoft-test-db
-#      JWT_SECRET: Pandita
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
       - name: Checkout code
@@ -39,10 +39,10 @@ jobs:
         run: npm ci
 
       - name: Print DB_URL SECRETS
-        run: echo "${{ toJSON(secrets.DATABASE_URL) }}"
+        run: echo "${{ secrets.JWT_SECRET }}"
 
-      - name: Print DB_URL VAR
-        run: echo "${{ toJSON(vars.DATABASE_URL) }}"
+#      - name: Print DB_URL VAR
+#        run: echo "${{ DATABASE_URL }}"
 
       - name: Run migration in db
         run: npx prisma db push
