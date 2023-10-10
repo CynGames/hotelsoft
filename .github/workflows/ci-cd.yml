@@ -12,19 +12,19 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: 123456
+          POSTGRES_USER: ${{ secrets.TEST_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432
+          - ${{ secrets.TEST_PORT }}:${{ secrets.TEST_PORT }}
 
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.TEST_JWT_SECRET }}
 
     steps:
       - name: Checkout code
@@ -37,12 +37,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Print DB_URL SECRETS
-        run: echo "${{ secrets.JWT_SECRET }}"
-
-#      - name: Print DB_URL VAR
-#        run: echo "${{ DATABASE_URL }}"
 
       - name: Run migration in db
         run: npx prisma db push
