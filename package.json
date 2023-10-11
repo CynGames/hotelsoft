@@ -15,6 +15,7 @@
     "db:push": "npx prisma db push",
     "build": "nest build",
     "start:dev": "npx prisma migrate dev && nest start --watch",
+    "start": "npx prisma migrate dev && nest start",
     "test": "jest -i",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
