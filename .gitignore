@@ -4,8 +4,7 @@
 /pgdata
 
 # env
-.env.prod
-.env
+.env.cloud
 
 # Logs
 logs
