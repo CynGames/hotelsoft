@@ -2,6 +2,12 @@
 
 Hotelsoft is an educational practice application that simulates the core functionalities of a hotel's operations. Built using Nest.js and GraphQL, the application serves as a hands-on lab for budding developers who wish to understand how a full-fledged hotel management system can be built.
 
+## Link to the application
+
+https://hotelsoft-app-6dudj.ondigitalocean.app/graphql
+
+_Note: By the end of October 2023, the app might stop running due to the Digital Ocean costs associated with running the app. If you wish to run the app locally, please follow the instructions below._
+
 ## Features
 
 **Guest Management**:
@@ -54,7 +60,6 @@ The Operations allowed are:
 - View details of existing rooms.
 - Update room information.
 - Change room status.
-
 
 ## Technology Stack
 - **Backend**: Nest.js
