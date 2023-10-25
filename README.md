@@ -1,12 +1,14 @@
 ## Description
 
-Hotelsoft is an educational practice application that simulates the core functionalities of a hotel's operations. Built using Nest.js and GraphQL, the application serves as a hands-on lab for budding developers who wish to understand how a full-fledged hotel management system can be built.
+Hotelsoft is an educational practice application that simulates the core functionalities of a hotel's operations. Built using Nest.js and GraphQL, the application serves as a hands-on lab for developers who wish to understand how a full-fledged hotel management system can be built.
 
 ## Link to the application
 
 https://hotelsoft-app-6dudj.ondigitalocean.app/graphql
 
 _Note: By the end of October 2023, the app might stop running due to the Digital Ocean costs associated with running the app. If you wish to run the app locally, please follow the instructions below._
+
+_Note 2: Since this is meant as a pet project, the env files are included in the repository._
 
 ## Features
 
@@ -120,6 +122,8 @@ npm run docker:build
 npm run docker:run
 ```
 
+3 - **Verify GraphQL Playground**: Open your web browser and go to http://localhost:3000/graphql.
+
 ### Checking Functionality
 
 1 - **Seed Database**: To populate the database with test data, execute the following GraphQL mutation.
@@ -170,16 +174,17 @@ _Note: In the Apollo Playground go to Explorer -> mutation -> login._
 3 - **Token usage**: Paste the token in the headers or shared headers section to run queries that require higher privileges.
 
 
-### Testing: 
+### Testing
 
 **Run Tests**: To ensure the application is working as expected, you can run the integrated tests.
-
 
 ```bash 
 npm run test
 ```
 
-### CI/CD Pipeline Process
-The CI/CD process is configured to run a series of tests each time a pull request is created. 
+The tests are all E2E tests that go through each resolver and verify that the expected data is returned.
 
-The pipeline verifies the integrity of the code, runs unit tests, and ensures that the build process is error-free. Once all the checks pass, the pull request can be reviewed and merged.
+### CI/CD Pipeline Process
+The CI/CD process is configured to run a series of tests each time a pull request for the master branch is created and it can also be manually triggered. 
+
+The pipeline verifies the integrity of the code, runs unit tests, and ensures that the build process is error-free.
