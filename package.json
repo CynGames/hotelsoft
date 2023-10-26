@@ -7,8 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "docker:test": "docker-compose -f docker-compose.test.yaml --env-file .env up --build",
-    "docker:build": "docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build",
-    "docker:run": "docker-compose -f docker-compose.prod.yaml --env-file .env.prod up",
+    "docker:build": "docker-compose -f docker-compose.prod.yaml --env-file .env.prod build",
+    "docker:run": "docker-compose -f docker-compose.prod.yaml --env-file .env.prod up && docker exec -it npx prisma migrate deploy",
     "docker:migrate:test": "docker exec -it hotelsoft-app npx prisma migrate dev",
     "generate": "dotenv -e .env -- npx prisma generate",
     "migrate": "dotenv -e .env -- npx prisma migrate deploy",
