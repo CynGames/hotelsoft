@@ -79,8 +79,6 @@ Before running the application, make sure the following are installed:
 
 ## Basics of running the app
 
-### Local Test Environment
-
 1 - **Clone Repository**: Clone the repository and navigate to its root directory.
 
 ```bash 
@@ -94,19 +92,21 @@ cd [repository_name]
 npm install
 ```
 
-3 - **Database Setup**: Use Docker to run the test database.
+### Local Test Environment
+
+1 - **Database Setup**: Use Docker to run the test database.
 
 ```bash 
 npm run docker:test
 ```
 
-4 - **Start App in Development Mode**: Run the application in watch mode.
+2 - **Start App in Development Mode**: Run the application in watch mode.
 
 ```bash 
 npm run start:dev
 ```
 
-5 - **Verify GraphQL Playground**: Open your web browser and go to http://localhost:3000/graphql.
+3 - **Verify GraphQL Playground**: Open your web browser and go to http://localhost:3000/graphql.
 
 ### Local Production Environment
 
